@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: Student Forums 413
+  datasource:
+    url: jdbc:mysql://localhost:3306/forum_project?useSSL=false&allowPublicKeyRetrieval=true
+    username: projectadmin # the mysql user details
+    password: project12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+# checking health and metrics of metrics
+management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+  server:
+    port: 8080
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+info:
+  application:
+    name: ${spring.application.name}
+    description: Very cool Spring Boot application
+    version: '@project.version@'
+    spring-boot-version: '@project.parent.version@'
