@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(Constants.Paths.FACULTY_PATH)
 public class FacultyEndpoint {
-    @Autowired
+    @Autowired //automatically finds beans and injects it.
     private FacultyService facultyService;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
