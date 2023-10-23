@@ -1,1 +1,24 @@
-<app-helloworld></app-helloworld>
+<nav>
+
+</nav>
+
+<mat-drawer-container class="example-container" [hasBackdrop]="true">
+    <mat-drawer #drawer mode="push">
+        <div class="nav">
+            <a routerLink="profile" routerLinkActive="active">Profile</a>
+            <a routerLink="login" routerLinkActive="active">Login</a>
+            <a routerLink="signup" routerLinkActive="active">Signup</a>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <mat-toolbar>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+                (click)="drawer.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>College Forum</span>
+            <span class="example-spacer"></span>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

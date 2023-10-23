@@ -1,0 +1,14 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: max-content;
+    min-width: 10vw;
+    margin: 2em;
+}
+.nav > a {
+    text-decoration: none;
+}
