@@ -13,6 +13,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     align-items: center;
     justify-content: center;
 }
+.horizontal-center {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+
+}
 .input {
     height: 3em;
     width: 95%;
@@ -22,7 +29,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 0.5em;
 }
 .card {
-    width: 40%;
     gap:2em;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     align-content: center;
