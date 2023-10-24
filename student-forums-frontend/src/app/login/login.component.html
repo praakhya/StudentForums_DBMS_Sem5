@@ -2,12 +2,12 @@
     <mat-card class="login">
         <mat-card-header class="login-header">Login</mat-card-header>
         <mat-card-content class="login-inputs">
-                    <input placeholder="Username" class="input">
-                    <input placeholder="Password" class="input">
+                    <input #username placeholder="Username" class="input" name="usernameRef" ngModel>
+                    <input #password placeholder="Password" class="input" >
         </mat-card-content>
         <mat-card-actions class="login-actions">
             <a href="/">Sign up</a>
-            <button mat-stroked-button>Login</button>
+            <button mat-stroked-button (click)="login(username.value, password.value)">Login</button>
         </mat-card-actions>
     </mat-card>
 </div>

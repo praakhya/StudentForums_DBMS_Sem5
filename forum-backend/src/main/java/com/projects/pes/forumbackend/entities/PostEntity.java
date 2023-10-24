@@ -17,6 +17,9 @@ public class PostEntity {
     private String title;
     private String content;
     private UUID posterId;
+    private UUID parentId;
+    @OneToMany
+    private Set<PostEntity> posts;
     @ManyToMany
     private Set<ResourceEntity> resources;
 }

@@ -48,10 +48,24 @@ public class ForumService {
             PostEntity postEntity = postMapper.convert(post);
             postEntity = postRepository.save(postEntity);
             ForumEntity forumEntity = optionalForumEntity.get();
-            if (forumEntity.getPosts()==null) {
-                forumEntity.setPosts(new HashSet<>());
+            if (post.parentId()==null) {
+                if (forumEntity.getPosts()==null) {
+                    forumEntity.setPosts(new HashSet<>());
+                }
+                forumEntity.getPosts().add(postEntity);
             }
-            forumEntity.getPosts().add(postEntity);
+            else {
+                Optional<PostEntity> optionalPostEntity = postRepository.findById(post.parentId());
+                if (optionalPostEntity.isPresent()) {
+                    PostEntity parentPostEntity = optionalPostEntity.get();
+                    if (parentPostEntity.getPosts()==null) {
+                        parentPostEntity.setPosts(new HashSet<>());
+                    }
+                    parentPostEntity.getPosts().add(postEntity);
+                    postRepository.save(parentPostEntity);
+                }
+            }
+
             forumRepository.save(forumEntity);
             return postMapper.convert(postEntity);
         }

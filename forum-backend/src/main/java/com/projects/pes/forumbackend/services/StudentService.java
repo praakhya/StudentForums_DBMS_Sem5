@@ -39,8 +39,9 @@ public class StudentService {
         Optional<StudentEntity> optionalStudentEntity = studentRepository.findByUsername(username);
         if (optionalStudentEntity.isPresent()) {
             StudentEntity entity = optionalStudentEntity.get();
+            Student student = studentMapper.convert(entity);
             studentRepository.delete(entity);
-            return studentMapper.convert(entity);
+            return student;
         }
         throw new UserDoesntExist(username);
     }

@@ -28,13 +28,20 @@ public class FacultyMapper {
         return facultyEntity;
     }
     public Faculty convert(FacultyEntity facultyEntity) {
+        PictureEntity pictureEntity = facultyEntity.getPicture();
+        byte[] imageData = null;
+        String mimeType = null;
+        if (pictureEntity != null) {
+            imageData = pictureEntity.getImageData();
+            mimeType = pictureEntity.getMimeType();
+        }
         return new Faculty(facultyEntity.getId(),
                 facultyEntity.getUsername(),
                 facultyEntity.getEmail(),
                 facultyEntity.getName(),
                 facultyEntity.getPassword(),
-                facultyEntity.getPicture().getImageData(),
-                facultyEntity.getPicture().getMimeType(),
+                imageData,
+                mimeType,
                 facultyEntity.getContact(),
                 facultyEntity.getForums(),
                 facultyEntity.getJobTitle(),

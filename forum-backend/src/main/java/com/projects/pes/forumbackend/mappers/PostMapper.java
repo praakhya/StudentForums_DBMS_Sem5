@@ -18,6 +18,8 @@ public class PostMapper {
         postEntity.setTitle(post.title());
         postEntity.setContent(post.content());
         postEntity.setPosterId(post.posterId());
+        postEntity.setParentId(post.parentId());
+        postEntity.setPosts(post.posts());
         postEntity.setResources(post.resources());
         return postEntity;
     }
@@ -28,6 +30,8 @@ public class PostMapper {
                 postEntity.getTitle(),
                 postEntity.getContent(),
                 postEntity.getPosterId(),
+                postEntity.getParentId(),
+                postEntity.getPosts(),
                 postEntity.getResources());
     }
 

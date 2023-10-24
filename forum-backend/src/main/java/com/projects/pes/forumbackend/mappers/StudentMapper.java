@@ -32,14 +32,21 @@ public class StudentMapper {
         return studentEntity;
     }
     public Student convert(StudentEntity studentEntity) {
+        PictureEntity pictureEntity = studentEntity.getPicture();
+        byte[] imageData = null;
+        String mimeType = null;
+        if (pictureEntity != null) {
+            imageData = pictureEntity.getImageData();
+            mimeType = pictureEntity.getMimeType();
+        }
         return new Student(
                 studentEntity.getId(),
                 studentEntity.getUsername(),
                 studentEntity.getEmail(),
                 studentEntity.getName(),
                 studentEntity.getPassword(),
-                studentEntity.getPicture().getImageData(),
-                studentEntity.getPicture().getMimeType(),
+                imageData,
+                mimeType,
                 studentEntity.getContact(),
                 studentEntity.getForums(),
                 studentEntity.getRollNo(),

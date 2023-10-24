@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -12,7 +13,8 @@ export class ProfileComponent {
   profileName: String;
   profileContact: String;
   profileType: String;
-  constructor() {
+  constructor(private authenticationService: AuthenticationService, private router: Router,) {
+    
     this.profileImgSrc= "./assets/dummyProfilePicture.webp";
     this.profileUsername="MyUsername";
     this.profileEmail="myself@example.com";
