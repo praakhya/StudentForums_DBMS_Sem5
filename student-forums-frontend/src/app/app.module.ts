@@ -20,6 +20,7 @@ import { FacultyProfileComponent } from './profile/faculty-profile/faculty-profi
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSelectModule} from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatIconModule,
     MatSidenavModule,
     MatSelectModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatButtonToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

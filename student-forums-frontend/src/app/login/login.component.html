@@ -1,4 +1,4 @@
-<div class="full-screen center-content">
+<div class="full-screen center-content" *ngIf="!this.loggedIn">
     <mat-card class="login">
         <mat-card-header class="login-header">Login</mat-card-header>
         <mat-card-content class="login-inputs">
@@ -9,5 +9,10 @@
             <a href="/">Sign up</a>
             <button mat-stroked-button (click)="login(username.value, password.value)">Login</button>
         </mat-card-actions>
+    </mat-card>
+</div>
+<div class="full-screen center-content" *ngIf="this.loggedIn">
+    <mat-card class="login">
+        <button mat-stroked-button (click)="logout()">Logout</button>
     </mat-card>
 </div>
