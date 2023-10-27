@@ -20,6 +20,7 @@ public class FacultyMapper {
         facultyEntity.setPicture(new PictureEntity(faculty.getImageData(),faculty.getMimeType()));
         facultyEntity.setContact(faculty.getContact());
         facultyEntity.setForums(faculty.getForums());
+        facultyEntity.setRole(faculty.getRole());
         facultyEntity.setId(faculty.getId());
         facultyEntity.setDepartment(faculty.getDepartment());
         facultyEntity.setDomains(faculty.getDomains());
@@ -44,10 +45,12 @@ public class FacultyMapper {
                 mimeType,
                 facultyEntity.getContact(),
                 facultyEntity.getForums(),
+                facultyEntity.getRole(),
                 facultyEntity.getJobTitle(),
                 facultyEntity.getDepartment(),
                 facultyEntity.getDomains(),
                 facultyEntity.getPublications()
+
         );
     }
     public List<Faculty> convert(List<FacultyEntity> entities) {

@@ -22,6 +22,7 @@ public class StudentMapper {
         studentEntity.setPicture(new PictureEntity(student.getImageData(),student.getMimeType()));
         studentEntity.setContact(student.getContact());
         studentEntity.setForums(student.getForums());
+        studentEntity.setRole(student.getRole());
         studentEntity.setRollNo(student.getRollNo());
         studentEntity.setDepartment(student.getDepartment());
         studentEntity.setClassId(student.getClassId());
@@ -49,6 +50,7 @@ public class StudentMapper {
                 mimeType,
                 studentEntity.getContact(),
                 studentEntity.getForums(),
+                studentEntity.getRole(),
                 studentEntity.getRollNo(),
                 studentEntity.getDepartment(),
                 studentEntity.getClassId(),

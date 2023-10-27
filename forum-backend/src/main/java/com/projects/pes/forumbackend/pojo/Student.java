@@ -22,16 +22,15 @@ public class Student extends User {
          String mimeType,
          String contact,
          Set<ForumEntity> forums,
+         UserRole role,
          String rollNo,
          String department,
          UUID classId,
          UUID forumId,
          List<String>memberships,
          List<String> publications,
-         List<String> skills
-
-    ) {
-        super(id,username,email,name,password,imageData,mimeType,contact,forums);
+         List<String> skills) {
+        super(id,username,email,name,password,imageData,mimeType,contact,forums,role);
         this.rollNo = rollNo;
         this.department = department;
         this.classId = classId;

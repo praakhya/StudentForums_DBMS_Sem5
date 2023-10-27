@@ -1,5 +1,6 @@
 package com.projects.pes.forumbackend.entities;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;

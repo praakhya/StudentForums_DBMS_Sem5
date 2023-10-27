@@ -1,19 +1,21 @@
 package com.projects.pes.forumbackend.services;
 
+import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.UserEntity;
 import com.projects.pes.forumbackend.exceptions.UserDoesntExist;
 import com.projects.pes.forumbackend.mappers.UserMapper;
 import com.projects.pes.forumbackend.pojo.ProfileImage;
+import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.User;
+import com.projects.pes.forumbackend.pojo.UserRole;
 import com.projects.pes.forumbackend.repositories.UserRepository;
 import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class UserService {
     @Autowired

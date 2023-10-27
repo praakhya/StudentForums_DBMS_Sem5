@@ -1,14 +1,12 @@
 package com.projects.pes.forumbackend.entities;
 
+import com.projects.pes.forumbackend.pojo.UserRole;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import java.sql.Blob;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +27,7 @@ public class UserEntity {
     private UUID id;
     @Nonnull
     private String username;
+    @Nonnull
     private String email;
     @Nonnull
     private String name;
@@ -37,6 +36,7 @@ public class UserEntity {
     @Embedded
     private PictureEntity picture;
     private String contact;
+    private UserRole role;
     @ManyToMany
     private Set<ForumEntity> forums;
 

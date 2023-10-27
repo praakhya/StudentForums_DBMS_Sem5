@@ -23,6 +23,7 @@ public class UserMapper {
         userEntity.setPicture(new PictureEntity(user.getImageData(), user.getMimeType()));
         userEntity.setContact(user.getContact());
         userEntity.setForums(user.getForums());
+        userEntity.setRole(user.getRole());
         return userEntity;
     }
     public  User convert(UserEntity userEntity) {
@@ -42,7 +43,8 @@ public class UserMapper {
                 imageData,
                 mimeType,
                 userEntity.getContact(),
-                userEntity.getForums()
+                userEntity.getForums(),
+                userEntity.getRole()
         );
     }
     public List<User> convert(List<UserEntity> entities) {
