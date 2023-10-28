@@ -1,5 +1,6 @@
 package com.projects.pes.forumbackend.services;
 
+import com.projects.pes.forumbackend.ForumBackendApplication;
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.UserEntity;
@@ -9,9 +10,12 @@ import com.projects.pes.forumbackend.mappers.UserMapper;
 import com.projects.pes.forumbackend.pojo.*;
 import com.projects.pes.forumbackend.repositories.UserRepository;
 import com.projects.pes.forumbackend.utils.Constants;
+import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,9 @@ public class UserService {
     private UserMapper userMapper;
     @Autowired
     private ForumMapper forumMapper;
+    @Autowired
+    private ServletContext servletContext;
+
     public Iterable<User> getUsers() {
         List<User>  userList = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(
@@ -41,7 +48,7 @@ public class UserService {
     public User save(User user) {
         return userMapper.convert(
                 userRepository.save(userMapper.convert(user))
-                );
+        );
     }
     public User delete(String username) {
         Optional<UserEntity> optionalUserEntity=userRepository.findByUsername(username);
@@ -69,14 +76,21 @@ public class UserService {
         }
         throw new UserDoesntExist(username);
     }
-    public ProfileImage getImage(String username) {
+    public Optional<ProfileImage> getImage(String username) {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
         if (optionalUserEntity.isPresent()) {
             UserEntity entity = optionalUserEntity.get();
-            return new ProfileImage(username,
-                    Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
-                    entity.getPicture().getMimeType(),
-                    entity.getPicture().getImageData());
+            if (entity.getPicture() != null && entity.getPicture().getImageData() != null) {
+
+                Optional.of(new ProfileImage(username,
+                        Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
+                        entity.getPicture().getMimeType(),
+                        entity.getPicture().getImageData()));
+            }
+            else {
+
+                return Optional.empty();
+            }
         }
         throw new UserDoesntExist(username);
     }

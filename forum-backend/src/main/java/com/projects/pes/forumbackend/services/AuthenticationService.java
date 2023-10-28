@@ -24,9 +24,7 @@ public class AuthenticationService {
         );
         UserEntity userEntity = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UserDoesntExist(user.getUsername()));
         String jwtToken = jwtService.generateToken(userEntity);
-        return new Token(jwtToken);
-
-
+        return new Token(jwtToken, 5*60);
     }
 
 }

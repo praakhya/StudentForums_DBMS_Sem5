@@ -29,6 +29,8 @@ public class StudentService {
     private StudentMapper studentMapper;
     @Autowired
     private ForumMapper forumMapper;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,34 +57,4 @@ public class StudentService {
         }
         throw new UserDoesntExist(username);
     }
-    public ProfileImage updateProfileImage(String username,
-                                           byte[] bytes,
-                                           String mimeType) {
-        Optional<StudentEntity> optionalStudentEntity = studentRepository.findByUsername(username);
-        if (optionalStudentEntity.isPresent()) {
-            StudentEntity entity = optionalStudentEntity.get();
-            PictureEntity picture = new PictureEntity(bytes, mimeType);
-            entity.setPicture(picture);
-            entity = studentRepository.save(entity);
-            studentMapper.convert(entity);
-            return new ProfileImage(username,
-                    Constants.Paths.FACULTY_PATH+Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
-                    entity.getPicture().getMimeType(),
-                    null);
-        }
-        throw new UserDoesntExist(username);
-    }
-    public ProfileImage getImage(String username) {
-        Optional<StudentEntity> optionalStudentEntity = studentRepository.findByUsername(username);
-        if (optionalStudentEntity.isPresent()) {
-            StudentEntity entity = optionalStudentEntity.get();
-            return new ProfileImage(username,
-                    Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
-                    entity.getPicture().getMimeType(),
-                    entity.getPicture().getImageData());
-        }
-        throw new UserDoesntExist(username);
-    }
-
-
 }

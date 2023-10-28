@@ -47,32 +47,4 @@ public class FacultyService {
         }
         throw new UserDoesntExist(username);
     }
-    public ProfileImage updateProfileImage(String username,
-                                           byte[] bytes,
-                                           String mimeType) {
-        Optional<FacultyEntity> optionalFacultyEntity = facultyRepository.findByUsername(username);
-        if (optionalFacultyEntity.isPresent()) {
-            FacultyEntity entity = optionalFacultyEntity.get();
-            PictureEntity picture = new PictureEntity(bytes, mimeType);
-            entity.setPicture(picture);
-            entity = facultyRepository.save(entity);
-            facultyMapper.convert(entity);
-            return new ProfileImage(username,
-                    Constants.Paths.FACULTY_PATH+Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
-                    entity.getPicture().getMimeType(),
-                    null);
-        }
-        throw new UserDoesntExist(username);
-    }
-    public ProfileImage getImage(String username) {
-        Optional<FacultyEntity> optionalFacultyEntity = facultyRepository.findByUsername(username);
-        if (optionalFacultyEntity.isPresent()) {
-            FacultyEntity entity = optionalFacultyEntity.get();
-            return new ProfileImage(username,
-                    Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
-                    entity.getPicture().getMimeType(),
-                    entity.getPicture().getImageData());
-        }
-        throw new UserDoesntExist(username);
-    }
 }

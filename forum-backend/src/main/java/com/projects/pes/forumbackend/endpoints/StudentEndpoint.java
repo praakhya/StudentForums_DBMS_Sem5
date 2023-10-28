@@ -6,9 +6,11 @@ import com.projects.pes.forumbackend.pojo.ProfileImage;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.services.StudentService;
+import com.projects.pes.forumbackend.services.UserService;
 import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.SecurityContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,9 @@ import java.util.Optional;
 public class StudentEndpoint {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Student> getStudent() {
         return studentService.getStudents();
@@ -44,7 +49,7 @@ public class StudentEndpoint {
     @RequestMapping(value = Constants.Paths.IMAGE_UPLOAD_PATH, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProfileImage uploadImage(@PathVariable("username") String username, @RequestParam("image") MultipartFile file) {
         try {
-            return studentService.updateProfileImage(username, file.getBytes(), file.getContentType());
+            return userService.updateProfileImage(username, file.getBytes(), file.getContentType());
         }
         catch (IOException ex) {
             throw new FileParsingFailed(file.getName(), ex);
@@ -52,8 +57,14 @@ public class StudentEndpoint {
     }
     @RequestMapping(value = Constants.Paths.IMAGE_UPLOAD_PATH, method = RequestMethod.GET)
     public ResponseEntity<byte[]> getImage(@PathVariable("username") String username) {
-        ProfileImage profileImage
-                = studentService.getImage(username);
-        return ResponseEntity.ok().contentType(MediaType.valueOf(profileImage.mimeType())).body(profileImage.image());
+        Optional<ProfileImage> optionalProfileImage = userService.getImage(username);
+        if (optionalProfileImage.isPresent()) {
+
+            ProfileImage profileImage = optionalProfileImage.get();
+            return ResponseEntity.ok().contentType(MediaType.valueOf(profileImage.mimeType())).body(profileImage.image());
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header("Location", Constants.Paths.DUMMY_PROFILE_PICTURE).build();
+        }
     }
 }

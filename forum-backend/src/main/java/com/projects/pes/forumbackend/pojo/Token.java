@@ -1,6 +1,4 @@
 package com.projects.pes.forumbackend.pojo;
 
-public record Token(
-        String token
-) {
+public record Token(String token, int expiresIn) {
 }
