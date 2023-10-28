@@ -1,6 +1,8 @@
 spring:
   application:
     name: Student Forums 413
+    security:
+      key: e731943f7781ccdd9b10a08d392bc7fe69c51037ba42044cae7d485dbff15052
   datasource:
     url: jdbc:mysql://localhost:3306/forum_project?useSSL=false&allowPublicKeyRetrieval=true
     username: projectadmin # the mysql user details
@@ -10,6 +12,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+#logging:
+#  level:
+#    org:
+#      springframework: DEBUG
 
 # checking health and metrics of metrics
 management:

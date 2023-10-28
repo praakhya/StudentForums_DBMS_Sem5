@@ -11,6 +11,7 @@ public class Student extends User {
 
     public Student() {
         super();
+        setRole(UserRole.STUDENT);
     }
     public Student(
          UUID id,
@@ -22,15 +23,13 @@ public class Student extends User {
          String mimeType,
          String contact,
          Set<ForumEntity> forums,
-         UserRole role,
          String rollNo,
          String department,
          UUID classId,
-         UUID forumId,
          List<String>memberships,
          List<String> publications,
          List<String> skills) {
-        super(id,username,email,name,password,imageData,mimeType,contact,forums,role);
+        super(id,username,email,name,password,imageData,mimeType,contact,forums,UserRole.STUDENT);
         this.rollNo = rollNo;
         this.department = department;
         this.classId = classId;

@@ -14,7 +14,6 @@ public class StudentEntity extends UserEntity {
     private String rollNo;
     private String department;
     private UUID classId;
-    private UUID forumId;
     private List<String> memberships;
     private List<String> publications;
     private List<String> skills;

@@ -9,6 +9,7 @@ import com.projects.pes.forumbackend.pojo.ProfileImage;
 import com.projects.pes.forumbackend.repositories.FacultyRepository;
 import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class FacultyService {
     private FacultyRepository facultyRepository;
     @Autowired
     private FacultyMapper facultyMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Iterable<Faculty> getFaculties() {
         List<Faculty> facultyList = new ArrayList<>();
@@ -32,6 +35,7 @@ public class FacultyService {
                 .findByUsername(username).orElseThrow(() -> {throw new UserDoesntExist(username);}));
     }
     public Faculty save(Faculty faculty) {
+        faculty.setPassword(passwordEncoder.encode(faculty.getPassword()));
         return facultyMapper.convert(facultyRepository.save(facultyMapper.convert(faculty)));
     }
     public Faculty delete(String username) {

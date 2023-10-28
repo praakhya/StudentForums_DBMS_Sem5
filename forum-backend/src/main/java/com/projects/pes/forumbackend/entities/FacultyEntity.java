@@ -15,8 +15,6 @@ import java.util.UUID;
 @Table(name = "faculty")
 public class FacultyEntity extends UserEntity {
 
-    @OneToMany
-    private Set<ForumEntity> forums;
     private String jobTitle;
     private String department;
     private List<String> domains;

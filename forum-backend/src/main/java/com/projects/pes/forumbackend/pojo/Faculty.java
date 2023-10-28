@@ -11,6 +11,7 @@ import java.util.UUID;
 public class Faculty extends User {
         public Faculty() {
             super();
+            setRole(UserRole.FACULTY);
         }
         public Faculty (
                 UUID id,
@@ -22,13 +23,12 @@ public class Faculty extends User {
                 String mimeType,
                 String contact,
                 Set<ForumEntity> forums,
-                UserRole role,
                 String jobTitle,
                 String department,
                 List<String>domains,
                 List<String> publications
         ) {
-            super(id,username,email,name,password,imageData,mimeType,contact,forums,role);
+            super(id,username,email,name,password,imageData,mimeType,contact,forums,UserRole.FACULTY);
             this.jobTitle = jobTitle;
             this.department = department;
             this.domains = domains;

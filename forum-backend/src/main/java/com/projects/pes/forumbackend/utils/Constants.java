@@ -6,6 +6,7 @@ public class Constants {
     public static class Paths {
         public static final String HELLO_PATH = BASE_PATH + "/hello";
         public static final String USER_PATH = BASE_PATH + "/users";
+        public static final String AUTH_PATH = BASE_PATH + "/auth";
         public static final String USER_GET_ONE_PATH = BASE_PATH + "/users/{userid}";
         public static final String FACULTY_PATH = BASE_PATH + "/faculty";
         public static final String STUDENT_PATH = BASE_PATH + "/student";

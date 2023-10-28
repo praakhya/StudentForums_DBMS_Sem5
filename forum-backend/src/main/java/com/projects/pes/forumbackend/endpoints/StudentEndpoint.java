@@ -1,14 +1,18 @@
 package com.projects.pes.forumbackend.endpoints;
 
 import com.projects.pes.forumbackend.exceptions.FileParsingFailed;
+import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.ProfileImage;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.services.StudentService;
 import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +28,7 @@ public class StudentEndpoint {
     public Iterable<Student> getStudent() {
         return studentService.getStudents();
     }
+
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<Student> getStudent(@PathVariable("username") String username) {
         return Optional.of(studentService.getStudent(username));

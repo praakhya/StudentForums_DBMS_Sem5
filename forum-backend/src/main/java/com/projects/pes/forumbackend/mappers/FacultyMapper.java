@@ -3,6 +3,7 @@ package com.projects.pes.forumbackend.mappers;
 import com.projects.pes.forumbackend.entities.FacultyEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.pojo.Faculty;
+import com.projects.pes.forumbackend.pojo.UserRole;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class FacultyMapper {
         facultyEntity.setPicture(new PictureEntity(faculty.getImageData(),faculty.getMimeType()));
         facultyEntity.setContact(faculty.getContact());
         facultyEntity.setForums(faculty.getForums());
-        facultyEntity.setRole(faculty.getRole());
+        facultyEntity.setRole(UserRole.FACULTY);
         facultyEntity.setId(faculty.getId());
         facultyEntity.setDepartment(faculty.getDepartment());
         facultyEntity.setDomains(faculty.getDomains());
@@ -45,7 +46,6 @@ public class FacultyMapper {
                 mimeType,
                 facultyEntity.getContact(),
                 facultyEntity.getForums(),
-                facultyEntity.getRole(),
                 facultyEntity.getJobTitle(),
                 facultyEntity.getDepartment(),
                 facultyEntity.getDomains(),

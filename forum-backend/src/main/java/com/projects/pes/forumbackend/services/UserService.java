@@ -4,17 +4,16 @@ import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.UserEntity;
 import com.projects.pes.forumbackend.exceptions.UserDoesntExist;
+import com.projects.pes.forumbackend.mappers.ForumMapper;
 import com.projects.pes.forumbackend.mappers.UserMapper;
-import com.projects.pes.forumbackend.pojo.ProfileImage;
-import com.projects.pes.forumbackend.pojo.Student;
-import com.projects.pes.forumbackend.pojo.User;
-import com.projects.pes.forumbackend.pojo.UserRole;
+import com.projects.pes.forumbackend.pojo.*;
 import com.projects.pes.forumbackend.repositories.UserRepository;
 import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -22,6 +21,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ForumMapper forumMapper;
     public Iterable<User> getUsers() {
         List<User>  userList = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(
@@ -76,6 +77,15 @@ public class UserService {
                     Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
                     entity.getPicture().getMimeType(),
                     entity.getPicture().getImageData());
+        }
+        throw new UserDoesntExist(username);
+    }
+    public Iterable<Forum> getUserForums(String username) {
+
+        Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
+        if (optionalUserEntity.isPresent()) {
+            UserEntity entity = optionalUserEntity.get();
+            return entity.getForums().stream().map(f -> forumMapper.convert(f)).collect(Collectors.toList());
         }
         throw new UserDoesntExist(username);
     }

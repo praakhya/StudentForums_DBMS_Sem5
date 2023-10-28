@@ -4,6 +4,7 @@ import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.StudentEntity;
 import com.projects.pes.forumbackend.pojo.Student;
+import com.projects.pes.forumbackend.pojo.UserRole;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +23,10 @@ public class StudentMapper {
         studentEntity.setPicture(new PictureEntity(student.getImageData(),student.getMimeType()));
         studentEntity.setContact(student.getContact());
         studentEntity.setForums(student.getForums());
-        studentEntity.setRole(student.getRole());
+        studentEntity.setRole(UserRole.STUDENT);
         studentEntity.setRollNo(student.getRollNo());
         studentEntity.setDepartment(student.getDepartment());
         studentEntity.setClassId(student.getClassId());
-        studentEntity.setForumId(student.getForumId());
         studentEntity.setMemberships(student.getMemberships());
         studentEntity.setPublications(student.getPublications());
         studentEntity.setSkills(student.getSkills());
@@ -50,11 +50,9 @@ public class StudentMapper {
                 mimeType,
                 studentEntity.getContact(),
                 studentEntity.getForums(),
-                studentEntity.getRole(),
                 studentEntity.getRollNo(),
                 studentEntity.getDepartment(),
                 studentEntity.getClassId(),
-                studentEntity.getForumId(),
                 studentEntity.getMemberships(),
                 studentEntity.getPublications(),
                 studentEntity.getSkills()
