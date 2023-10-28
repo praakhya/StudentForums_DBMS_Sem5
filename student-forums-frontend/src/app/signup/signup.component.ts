@@ -23,9 +23,9 @@ export class SignupComponent {
     this.error = "";
     
   }
-  signup(username:String, email:String, name:String, password:String, confirmPassword:String, role:String) {
+  signup(username:String, email:String, name:String, password:String, confirmPassword:String, role:String, department:String) {
     if (password==confirmPassword) {
-      var user = new User(username=username,password=password,email=email,name=name,role=role);
+      var user = new User(username=username,password=password,email=email,name=name,role=role, department=department, "./assets/dummyProfilePicture.webp");
       this.authenticationService.postUser(user).subscribe(res => {
         console.log(res);
         alert(res)

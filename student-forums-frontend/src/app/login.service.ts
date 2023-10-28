@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import * as moment from "moment";
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private loggedIn: BehaviorSubject<boolean>;
   constructor() {
-    this.loggedIn = new BehaviorSubject<boolean>(false);
   }
-  getValue(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  public isLoggedIn() {
+    return localStorage.getItem("token")!=null;
   }
-  setValue(newValue:boolean): void {
-    this.loggedIn.next(newValue);
+
+  public isLoggedOut() {
+    return !this.isLoggedIn();
   }
+  
 }

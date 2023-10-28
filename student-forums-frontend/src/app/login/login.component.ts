@@ -9,28 +9,21 @@ import { LoginService } from '../login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  user?:any;
   loggedIn:boolean;
   constructor(private authenticationService: AuthenticationService, private userService: UserService, private loginService: LoginService, private router: Router,) {
-    this.loggedIn=false;
-  }
-  ngOnInit() {
-    this.loginService.getValue().subscribe(l => {
-      this.loggedIn = l;
-    })
+    this.loggedIn=this.loginService.isLoggedIn();
   }
   login(username:String, password:String) {
     console.log(username,password);
-    this.authenticationService.getUser(username).subscribe(u => {
-      this.user = u;
-      this.userService.setValue(this.user);
-      console.log(u);
-      this.loginService.setValue(true);
+    this.authenticationService.setUserToken(username,password).subscribe(t => {
+      this.authenticationService.setSession(t.token);
+      console.log(t);
+      this.loggedIn = this.loginService.isLoggedIn();
     });
   }
   logout() {
-    this.loginService.setValue(false);
-
+    this.authenticationService.logout()
+    this.loggedIn = this.loginService.isLoggedIn();
   }
 
 }

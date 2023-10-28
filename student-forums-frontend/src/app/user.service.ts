@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './user';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Token } from './token';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private loggedInUser: BehaviorSubject<User>|null;
-
-  constructor() {
-    this.loggedInUser = null;
-  }
-
-  getValue(): Observable<User>|null {
-    if (this.loggedInUser)
-      return this.loggedInUser.asObservable();
-    return null;
-  }
-  setValue(newValue:User): void {
-    if (this.loggedInUser) {
-      this.loggedInUser.next(newValue);
-      return;
+  public baseUrl = "/api";
+  constructor(private httpClient: HttpClient) {
+    var tokenFromStorage = localStorage.getItem("token");
+    if (tokenFromStorage) {
+      this.getUser();
     }
-    this.loggedInUser = new BehaviorSubject<User>(newValue);
+    
   }
+  getUser(): Observable<User>|null {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<User>(this.baseUrl+"/user",options);
+  }
+  
 }

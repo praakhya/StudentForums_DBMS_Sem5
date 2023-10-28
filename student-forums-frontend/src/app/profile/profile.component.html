@@ -1,8 +1,8 @@
 <div class="full-screen horizontal-center">
-    <div class="card two-column profile-card">
+    <div class="card two-column profile-card" *ngIf="this.user">
         <div class="column profile-column">
-            <div class="circle profile"><img src={{this.profileImgSrc}} class="profile-image"/></div>
-            <p>{{this.profileUsername}}</p>
+            <div class="circle profile"><img src={{this.user.imgUrl}} class="profile-image"/></div>
+            <p>{{this.user.username}}</p>
             <button mat-stroked-button>
                 <span>Edit Profile Picture</span>
                 <mat-icon fontIcon="edit"></mat-icon>
@@ -17,7 +17,7 @@
                     </span>
                     <br>
                     <span>
-                        {{this.profileUsername}}
+                        {{this.user.username}}
                     </span>
                 </div>
                 <div>
@@ -26,7 +26,7 @@
                     </span>
                     <br>
                     <span>
-                        {{this.profileEmail}}
+                        {{this.user.email}}
                     </span>
                 </div>
                 <div>
@@ -35,7 +35,7 @@
                     </span>
                     <br>
                     <span>
-                        {{this.profileName}}
+                        {{this.user.name}}
                     </span>
                 </div>
                 <div>
@@ -44,7 +44,7 @@
                     </span>
                     <br>
                     <span>
-                        {{this.profileContact}}
+                        {{this.user.contact}}
                     </span>
                 </div>
             </mat-card-content>
@@ -52,5 +52,8 @@
             <app-student-profile *ngIf="this.profileType=='Student'"></app-student-profile>
             <app-faculty-profile *ngIf="this.profileType=='Faculty'"></app-faculty-profile>-->
         </mat-card>
+    </div>
+    <div class="card two-column profile-card" *ngIf="!this.user">
+        Log in to view your profile
     </div>
 </div>
