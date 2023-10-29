@@ -1,43 +1,48 @@
-<div class="full-screen center-content">
-    <mat-button-toggle-group #group="matButtonToggleGroup" id="roleButtonGroup">
-        <mat-button-toggle value="student" checked="true" aria-label="Text align left">
-          Student
-        </mat-button-toggle>
-        <mat-button-toggle value="faculty" aria-label="Text align center">
-          faculty
-        </mat-button-toggle>
-      </mat-button-toggle-group>
     <mat-card class="signup">
-        <mat-card-header class="signup-header">
-            <h3>Signup</h3>
-        </mat-card-header>
-        <mat-card-content class="signup-inputs">
-                    <div>{{this.error}}</div>
-                    <input placeholder="Username" class="input" #username>
-                    <input type="email" placeholder="E-Mail" class="input" #email>
-                    <input placeholder="Name" class="input" #name>
-                    <input placeholder="Password" class="input" #password>
-                    <input placeholder="Confirm Password" class="input" #confirmPassword>
-        </mat-card-content>
-        <mat-card-content class="signup-inputs">
-            <div>{{group.value.charAt(0).toUpperCase() + group.value.slice(1)}} Details</div>
-            <div *ngIf="group.value=='student'">
-                <input placeholder="Roll Number" class="input" #rollNo>
+        <div class="column">
+            <div class="heading">
+                Signup
             </div>
-            <div *ngIf="group.value=='faculty'">
-                <input placeholder="Job Title" class="input" #rollNo>
-            </div>
-            <div>
-                <mat-label>Department</mat-label>
-                <mat-select #selectedDept>
-                    <mat-option *ngFor="let dept of departments" [value]="dept">
-                    {{dept}}
-                    </mat-option>
-                </mat-select>
-            </div>
-        </mat-card-content>
-        <mat-card-actions class="signup-actions">
-            <button mat-stroked-button (click)="signup(username.value, email.value, name.value, password.value, confirmPassword.value, group.value, selectedDept.value)">Sign up</button>
-        </mat-card-actions>
+            <mat-card-content class="signup-inputs">
+
+                <div>{{this.error}}</div>
+                <input placeholder="Username" class="input" #username>
+                <input type="email" placeholder="E-Mail" class="input" #email>
+                <input placeholder="Name" class="input" #name>
+                <input placeholder="Password" class="input" #password>
+                <input placeholder="Confirm Password" class="input" #confirmPassword>
+            </mat-card-content>
+        </div>
+        <div class="column">
+            <mat-button-toggle-group #group="matButtonToggleGroup" id="roleButtonGroup">
+                <mat-button-toggle value="student" checked="true" aria-label="Text align left">
+                    Student
+                </mat-button-toggle>
+                <mat-button-toggle value="faculty" aria-label="Text align center">
+                    faculty
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-card-content class="signup-inputs">
+                <div class="heading">{{group.value.charAt(0).toUpperCase() + group.value.slice(1)}} Details</div>
+                <div *ngIf="group.value=='student'">
+                    <input placeholder="Roll Number" class="input" #rollNo>
+                </div>
+                <div *ngIf="group.value=='faculty'">
+                    <input placeholder="Job Title" class="input" #rollNo>
+                </div>
+                <div>
+                    <mat-label>Department</mat-label>
+                    <mat-select #selectedDept>
+                        <mat-option *ngFor="let dept of departments" [value]="dept">
+                            {{dept}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <mat-card-actions class="signup-actions">
+                    <button mat-stroked-button
+                        (click)="signup(username.value, email.value, name.value, password.value, confirmPassword.value, group.value, selectedDept.value)">Sign
+                        up</button>
+                </mat-card-actions>
+            </mat-card-content>
+        </div>
     </mat-card>
-</div>

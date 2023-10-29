@@ -1,12 +1,17 @@
+import { Forum } from "./forum";
+
 export class User {
-    username:String;
-    password:String;
-    email:String;
-    name:String;
-    imgUrl:String;
-    role:String;
-    contact?:String;
-    constructor(username:String, password:String, email:String, imgUrl:String,name:String, role:String, contact?:String) {
+    id:string;
+    username:string;
+    password:string;
+    email:string;
+    name:string;
+    imgUrl:string;
+    role:string;
+    contact?:string;
+    forums: Array<Forum>;
+    constructor(id:string, username:string, password:string, email:string, imgUrl:string,name:string, role:string, contact?:string) {
+        this.id = id;
         this.username=username;
         this.password=password;
         this.email=email;
@@ -14,5 +19,6 @@ export class User {
         this.imgUrl = imgUrl;
         this.role = role;
         this.contact=contact;
+        this.forums = [];
     }
 }

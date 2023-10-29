@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
-import { LoginService } from '../login.service';
 import { User } from '../user';
-
+import { Forum } from '../forum';
+import { catchError, of, Observable } from 'rxjs';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -19,14 +19,18 @@ export class SignupComponent {
     "Mechanical Engineering",
     "Civil Engineering"
   ];
-  constructor(private authenticationService:AuthenticationService, private loginService:LoginService) {
+  constructor(private authenticationService:AuthenticationService) {
     this.error = "";
     
   }
-  signup(username:String, email:String, name:String, password:String, confirmPassword:String, role:String, department:String) {
+  signup(username:string, email:string, name:string, password:string, confirmPassword:string, role:string, department:string) {
     if (password==confirmPassword) {
       var user = new User(username=username,password=password,email=email,name=name,role=role, department=department, "./assets/dummyProfilePicture.webp");
-      this.authenticationService.postUser(user).subscribe(res => {
+      this.authenticationService.postUser(user).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
+        console.error('Session Time Out', error);
+        localStorage.clear();
+        return of();
+      })).subscribe(res => {
         console.log(res);
         alert(res)
       })

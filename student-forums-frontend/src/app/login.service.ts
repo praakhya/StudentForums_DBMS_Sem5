@@ -7,12 +7,6 @@ import * as moment from "moment";
 export class LoginService {
   constructor() {
   }
-  public isLoggedIn() {
-    return localStorage.getItem("token")!=null;
-  }
-
-  public isLoggedOut() {
-    return !this.isLoggedIn();
-  }
+  
   
 }

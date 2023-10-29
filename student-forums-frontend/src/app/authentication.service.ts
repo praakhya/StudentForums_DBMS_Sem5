@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
 import { Token } from './token';
-import * as moment from "moment";
-import { UserService } from './user.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { of } from 'rxjs';
-
+import { of, catchError, Observable, BehaviorSubject } from 'rxjs';
+import { Forum } from './forum';
+import { Output, EventEmitter } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   public baseUrl = "/api";
-  constructor(private httpClient: HttpClient, private userService:UserService) { 
+  @Output()
+  user: BehaviorSubject<User|null> = new BehaviorSubject<User|null>(null)
+  constructor(private httpClient: HttpClient) {
   }
+
   public setUserToken(username: String, password: String):Observable<any> {
     if (!localStorage.getItem("token")) {
       const httpHeaders = new HttpHeaders({
@@ -37,10 +37,73 @@ export class AuthenticationService {
   }
   public setSession(authResult: string) {
     localStorage.setItem('token', authResult);
+    this.getUser()?.pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
+      console.error('Session Time Out', error);
+      localStorage.clear();
+      return of();
+    })).subscribe(u => {
+      var user = u;
+      console.log(u)
+      if (u) {
+        user.imgUrl = `/api/user/image/${u.username}`;
+      }
+      localStorage.setItem("user", JSON.stringify(user));
+      this.user.next(u)
+    })
+    console.log("token set at login")
   }
 
   logout() {
-    localStorage.removeItem("token");
+    localStorage.clear();
+  }
+  getUser(): Observable<User>|null {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<User>(this.baseUrl+"/user",options);
+  }
+  
+  getForum(id:string): Observable<Forum>|null {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<Forum>(`${this.baseUrl}/forum/${id}`,options);
+  }
+  postForum(name:string, id:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    let body = {
+      "adminId":id,
+      "name":name
+    }
+    console.log("options in user service: ",options)
+    return this.httpClient.post<Forum>(`${this.baseUrl}/forum`,body,options);
+  }
+  
+  public isLoggedIn() {
+    return localStorage.getItem("token")!=null;
+  }
+
+  public isLoggedOut() {
+    return !this.isLoggedIn();
   }
 
   

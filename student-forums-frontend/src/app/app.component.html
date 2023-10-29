@@ -1,16 +1,13 @@
-<nav>
 
-</nav>
-
-<mat-drawer-container class="example-container" [hasBackdrop]="true">
+<mat-drawer-container class="example-container" [hasBackdrop]="true" *ngIf="isLoggedIn()">
     <mat-drawer #drawer mode="push">
         <div class="nav">
             <a routerLink="profile">Profile</a>
-            <a routerLink="login">Login</a>
-            <a routerLink="signup">Signup</a>
+            <a routerLink="home">Home</a>
+            <a routerLink="forums">Forums</a>
         </div>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content class="drawer-content">
         <mat-toolbar>
             <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
                 (click)="drawer.toggle()">
@@ -18,7 +15,9 @@
             </button>
             <span>College Forum</span>
             <span class="example-spacer"></span>
+            <button (click)="logout()" mat-stroked-button>Logout</button>
         </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>
+<router-outlet *ngIf="!isLoggedIn()"></router-outlet>

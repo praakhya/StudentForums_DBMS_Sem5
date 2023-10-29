@@ -1,0 +1,30 @@
+<div class="forum-body">
+  <div class="forums-header">
+    <h1> Your Forums </h1>
+    <button mat-stroked-button (click)="toggleCreate()" *ngIf="userIsFaculty()">Create +</button>
+  </div>
+  <mat-card *ngIf="this.createMode" class="create-card">
+    <mat-form-field class="create-form">
+      <mat-label>Forum Name</mat-label>
+      <input matInput type="text" [(ngModel)]="forumName">
+      <button *ngIf="forumName" matSuffix mat-icon-button aria-label="Clear" (click)="forumName=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-card-footer class="create-footer">
+      <div>
+        <div>Admin</div>
+        <mat-chip>
+          <img matChipAvatar src={{this.user?.imgUrl}} />
+          {{this.user?.name}}
+        </mat-chip>
+      </div>
+
+      <button mat-stroked-button class="create-button" (click)="createForum()">Create</button>
+    </mat-card-footer>
+  </mat-card>
+  <mat-list class="list" *ngFor="let forum of this.forums">
+    <mat-list-item (click)="openForum(forum.id)">{{forum.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</div>

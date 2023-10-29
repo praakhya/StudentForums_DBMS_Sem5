@@ -1,0 +1,33 @@
+.forum-body {
+    padding: 1em;
+    width: 90vw;
+}
+.forums-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.create-form {
+    width: 80%;
+}
+.create-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+.create-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.create-footer > div {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: baseline;
+
+}

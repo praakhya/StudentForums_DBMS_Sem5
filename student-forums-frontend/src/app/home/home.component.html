@@ -1,0 +1,9 @@
+<div class="full-screen center-content" *ngIf="!signUp">
+    <app-login></app-login>
+    <a (click)="setSignUp()">Sign up</a>
+
+</div>
+<div class="full-screen center-content" *ngIf="signUp">
+    <app-signup></app-signup>
+    <a (click)="unsetSignUp()">Log in with existing account</a>
+</div>

@@ -11,7 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field'
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,6 +23,14 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSelectModule} from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+import {MatChipsModule} from '@angular/material/chips';
+
+import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ForumsComponent } from './forums/forums.component';
+import { ForumComponent } from './forums/forum/forum.component';
 
 
 @NgModule({
@@ -31,7 +41,11 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     SignupComponent,
     ProfileComponent,
     StudentProfileComponent,
-    FacultyProfileComponent
+    FacultyProfileComponent,
+    HomeComponent,
+    DashboardComponent,
+    ForumsComponent,
+    ForumComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,11 +57,16 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatCardModule,
     MatButtonModule,
     MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
     MatIconModule,
     MatSidenavModule,
     MatSelectModule,
     MatToolbarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDividerModule,
+    MatListModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

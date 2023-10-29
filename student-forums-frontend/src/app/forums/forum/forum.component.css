@@ -1,0 +1,29 @@
+.forum {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.header {
+    width: 90vw;
+    padding: 1em;
+}
+.more {
+    justify-self: flex-end;
+}
+.titleRow {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: baseline;
+    justify-content:space-between;
+}
+.titleRow > div {
+    font-weight: bolder;
+    font-size: larger;
+}
+.title {
+    justify-self: flex-start;
+    text-align: left;
+    width: fit-content;
+}

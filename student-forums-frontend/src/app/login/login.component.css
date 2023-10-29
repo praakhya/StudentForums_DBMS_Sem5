@@ -1,6 +1,6 @@
 
 .login {
-    width: 80%;
+    width: 80vw;
     max-width: 20em;
     gap:2em;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -18,8 +18,4 @@
     margin-left: 1em;
     margin-right: 1em;
     margin-bottom: 1em;
-}
-.login-actions > a {
-    text-decoration: none;
-    color:cadetblue;
 }
