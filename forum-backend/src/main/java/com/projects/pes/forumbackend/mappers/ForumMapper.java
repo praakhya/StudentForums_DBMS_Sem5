@@ -1,6 +1,10 @@
 package com.projects.pes.forumbackend.mappers;
 
+import com.projects.pes.forumbackend.entities.FacultyEntity;
 import com.projects.pes.forumbackend.entities.ForumEntity;
+import com.projects.pes.forumbackend.entities.UserEntity;
+import com.projects.pes.forumbackend.pojo.CreateForum;
+import com.projects.pes.forumbackend.pojo.Faculty;
 import com.projects.pes.forumbackend.pojo.Forum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,21 +17,24 @@ public class ForumMapper {
     public ForumEntity convert(Forum forum) {
         ForumEntity forumEntity = new ForumEntity();
         forumEntity.setId(forum.id());
-        forumEntity.setAdmin(forum.admin());
         forumEntity.setName(forum.name());
-        forumEntity.setPosts(forum.posts());
-        forumEntity.setResources(forum.resources());
-        forumEntity.setUsers(forum.users());
+        return forumEntity;
+    }
+    public ForumEntity convert(CreateForum forum, FacultyEntity facultyEntity) {
+        ForumEntity forumEntity = new ForumEntity();
+        forumEntity.setName(forum.name());
+        forumEntity.setAdmin(facultyEntity);
         return forumEntity;
     }
 
     public Forum convert(ForumEntity forumEntity) {
+        FacultyEntity facultyEntity = forumEntity.getAdmin();
         return new Forum(forumEntity.getId(),
-                forumEntity.getAdmin(),
+                new Faculty(facultyEntity.getId(), facultyEntity.getUsername(),facultyEntity.getEmail(), facultyEntity.getName(),null, null, null, null, null, null, null, null, null),
                 forumEntity.getName(),
-                forumEntity.getPosts(),
-                forumEntity.getResources(),
-                forumEntity.getUsers());
+                null,
+                null,
+                forumEntity.getUsers().stream().map(UserEntity::getId).collect(Collectors.toSet()));
     }
     public List<Forum> convert(List<ForumEntity> entities) {
         return entities.stream().map(this::convert).collect(Collectors.toList());

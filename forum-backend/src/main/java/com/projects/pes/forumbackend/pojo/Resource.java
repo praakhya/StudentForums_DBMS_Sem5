@@ -14,8 +14,6 @@ public record Resource(
          UUID validatorId,
          Boolean validated,
          Date dateOfPublish,
-         String contentType,
-         Set<PostEntity>posts,
-         Set<ForumEntity> forums
+         String contentType
 ) {
 }

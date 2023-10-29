@@ -11,10 +11,10 @@ import java.util.UUID;
 
 public record Forum(
          UUID id,
-         FacultyEntity admin,
+         Faculty admin,
          String name,
-         Set<PostEntity> posts,
-         Set<ResourceEntity> resources,
-         Set<UserEntity> users
+         Set<Post> posts,
+         Set<Resource> resources,
+         Set<UUID> users
 ) {
 }

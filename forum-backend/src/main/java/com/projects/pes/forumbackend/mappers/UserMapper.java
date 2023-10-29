@@ -1,8 +1,10 @@
 package com.projects.pes.forumbackend.mappers;
 
+import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.PostEntity;
 import com.projects.pes.forumbackend.entities.UserEntity;
+import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Post;
 import com.projects.pes.forumbackend.pojo.User;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,6 @@ public class UserMapper {
         userEntity.setPassword(user.getPassword());
         userEntity.setPicture(new PictureEntity(user.getImageData(), user.getMimeType()));
         userEntity.setContact(user.getContact());
-        userEntity.setForums(user.getForums());
         userEntity.setRole(user.getRole());
         return userEntity;
     }
@@ -43,7 +44,7 @@ public class UserMapper {
                 imageData,
                 mimeType,
                 userEntity.getContact(),
-                userEntity.getForums(),
+                userEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
                 userEntity.getRole()
         );
     }

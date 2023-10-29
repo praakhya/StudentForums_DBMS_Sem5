@@ -8,6 +8,7 @@ import com.projects.pes.forumbackend.pojo.Faculty;
 import com.projects.pes.forumbackend.pojo.ProfileImage;
 import com.projects.pes.forumbackend.repositories.FacultyRepository;
 import com.projects.pes.forumbackend.utils.Constants;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,12 @@ public class FacultyService {
         return facultyMapper.convert(facultyRepository
                 .findByUsername(username).orElseThrow(() -> {throw new UserDoesntExist(username);}));
     }
+    @Transactional
     public Faculty save(Faculty faculty) {
         faculty.setPassword(passwordEncoder.encode(faculty.getPassword()));
         return facultyMapper.convert(facultyRepository.save(facultyMapper.convert(faculty)));
     }
+    @Transactional
     public Faculty delete(String username) {
         Optional<FacultyEntity> optionalFacultyEntity = facultyRepository.findByUsername(username);
         if (optionalFacultyEntity.isPresent()) {

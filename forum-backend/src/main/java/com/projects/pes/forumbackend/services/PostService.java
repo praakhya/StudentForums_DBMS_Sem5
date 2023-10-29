@@ -4,6 +4,7 @@ import com.projects.pes.forumbackend.exceptions.EntityDoesntExist;
 import com.projects.pes.forumbackend.mappers.PostMapper;
 import com.projects.pes.forumbackend.pojo.Post;
 import com.projects.pes.forumbackend.repositories.PostRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class PostService {
         return postMapper.convert(postRepository
                 .findByTitle(title).orElseThrow(() -> {throw new EntityDoesntExist(title,"Post");}));
     }
+    @Transactional
     public Post save(Post post) {
         return postMapper.convert(postRepository.save(postMapper.convert(post)));
     }

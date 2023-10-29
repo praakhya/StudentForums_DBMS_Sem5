@@ -12,6 +12,7 @@ import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.repositories.StudentRepository;
 import com.projects.pes.forumbackend.utils.Constants;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,12 @@ public class StudentService {
         return studentMapper.convert(studentRepository
                 .findByUsername(username).orElseThrow(() -> {throw new UserDoesntExist(username);}));
     }
+    @Transactional
     public Student save(Student student) {
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentMapper.convert(studentRepository.save(studentMapper.convert(student)));
     }
+    @Transactional
     public Student delete(String username) {
         Optional<StudentEntity> optionalStudentEntity = studentRepository.findByUsername(username);
         if (optionalStudentEntity.isPresent()) {

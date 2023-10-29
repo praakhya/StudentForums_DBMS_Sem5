@@ -63,7 +63,7 @@ public class UserEndpoint {
         }
     }
     @RequestMapping(value = "/forums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Forum> getStudentForums() {
+    public Iterable<Forum> getUserForums() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userService.getUserForums(authentication.getName());
     }

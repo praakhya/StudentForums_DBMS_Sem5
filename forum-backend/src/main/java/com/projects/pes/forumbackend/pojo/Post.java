@@ -16,7 +16,7 @@ public record Post(
          String content,
          UUID posterId,
          UUID parentId,
-         Set<PostEntity> posts,
-         Set<ResourceEntity>resources
+         Set<Post> posts,
+         Set<Resource> resources
 ) {
 }

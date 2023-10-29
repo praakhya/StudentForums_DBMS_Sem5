@@ -3,6 +3,7 @@ package com.projects.pes.forumbackend.mappers;
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.StudentEntity;
+import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.UserRole;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,6 @@ public class StudentMapper {
         studentEntity.setPassword(student.getPassword());
         studentEntity.setPicture(new PictureEntity(student.getImageData(),student.getMimeType()));
         studentEntity.setContact(student.getContact());
-        studentEntity.setForums(student.getForums());
         studentEntity.setRole(UserRole.STUDENT);
         studentEntity.setRollNo(student.getRollNo());
         studentEntity.setDepartment(student.getDepartment());
@@ -49,7 +49,7 @@ public class StudentMapper {
                 imageData,
                 mimeType,
                 studentEntity.getContact(),
-                studentEntity.getForums(),
+                studentEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
                 studentEntity.getRollNo(),
                 studentEntity.getDepartment(),
                 studentEntity.getClassId(),

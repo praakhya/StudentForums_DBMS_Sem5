@@ -44,6 +44,10 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     @ManyToMany
+    @JoinTable(
+            name = "users_forums",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "forum_id"))
     private Set<ForumEntity> forums;
 
     @Override

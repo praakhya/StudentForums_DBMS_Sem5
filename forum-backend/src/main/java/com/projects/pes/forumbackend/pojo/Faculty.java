@@ -22,7 +22,7 @@ public class Faculty extends User {
                 byte[] imageData,
                 String mimeType,
                 String contact,
-                Set<ForumEntity> forums,
+                Set<Forum> forums,
                 String jobTitle,
                 String department,
                 List<String>domains,

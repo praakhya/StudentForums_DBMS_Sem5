@@ -4,17 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.FAILED_DEPENDENCY)
-public class FileParsingFailed extends BaseException {
-    public FileParsingFailed(String name) {
-        super(HttpStatus.FAILED_DEPENDENCY.value(), String.format("File %s could not be parsed.", name));
-        this.name = name;
-    }
-    public FileParsingFailed(String name, Throwable cause) {
-        super(HttpStatus.FAILED_DEPENDENCY.value(), String.format("File %s could not be parsed.", name), cause);
-        this.name = name;
+public class SubscriptionMappingDoesNotExist extends BaseException {
+    public SubscriptionMappingDoesNotExist(String name1, String name2) {
+        super(HttpStatus.FAILED_DEPENDENCY.value(), String.format("%s is not subscribed to %s", name1, name2));
     }
 
-    public FileParsingFailed() {
+    public SubscriptionMappingDoesNotExist() {
     }
-    private String name;
 }

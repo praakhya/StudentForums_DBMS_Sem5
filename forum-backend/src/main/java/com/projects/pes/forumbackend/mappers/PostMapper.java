@@ -2,8 +2,10 @@ package com.projects.pes.forumbackend.mappers;
 
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PostEntity;
+import com.projects.pes.forumbackend.entities.ResourceEntity;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Post;
+import com.projects.pes.forumbackend.pojo.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +21,6 @@ public class PostMapper {
         postEntity.setContent(post.content());
         postEntity.setPosterId(post.posterId());
         postEntity.setParentId(post.parentId());
-        postEntity.setPosts(post.posts());
-        postEntity.setResources(post.resources());
         return postEntity;
     }
 
@@ -31,8 +31,8 @@ public class PostMapper {
                 postEntity.getContent(),
                 postEntity.getPosterId(),
                 postEntity.getParentId(),
-                postEntity.getPosts(),
-                postEntity.getResources());
+                postEntity.getPosts().stream().map(p -> new Post(p.getId(),p.getType(),p.getTitle(),p.getContent(),p.getPosterId(),p.getParentId(),null,null)).collect(Collectors.toSet()),
+                postEntity.getResources().stream().map(r -> new Resource(r.getId(),null, r.getValidated(), r.getDateOfPublish(), r.getContentType())).collect(Collectors.toSet()));
     }
 
     public List<Post> convert(List<PostEntity> entities) {

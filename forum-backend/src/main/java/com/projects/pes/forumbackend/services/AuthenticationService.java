@@ -5,6 +5,7 @@ import com.projects.pes.forumbackend.exceptions.UserDoesntExist;
 import com.projects.pes.forumbackend.pojo.Token;
 import com.projects.pes.forumbackend.pojo.User;
 import com.projects.pes.forumbackend.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ public class AuthenticationService {
     private JwtService jwtService;
     @Autowired
     private UserRepository userRepository;
+    @Transactional
     public Token authenticate(User user) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())

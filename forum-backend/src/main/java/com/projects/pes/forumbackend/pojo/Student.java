@@ -22,7 +22,7 @@ public class Student extends User {
          byte[] imageData,
          String mimeType,
          String contact,
-         Set<ForumEntity> forums,
+         Set<Forum> forums,
          String rollNo,
          String department,
          UUID classId,

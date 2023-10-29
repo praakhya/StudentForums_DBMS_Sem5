@@ -1,6 +1,7 @@
 package com.projects.pes.forumbackend.pojo;
 
 import com.projects.pes.forumbackend.entities.ForumEntity;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,6 @@ public class User{
     private byte[] imageData;
     private String mimeType;
     private String contact;
-    private Set<ForumEntity>forums;
+    private Set<Forum>forums;
     private UserRole role;
 }

@@ -11,6 +11,7 @@ import com.projects.pes.forumbackend.pojo.*;
 import com.projects.pes.forumbackend.repositories.UserRepository;
 import com.projects.pes.forumbackend.utils.Constants;
 import jakarta.servlet.ServletContext;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +46,13 @@ public class UserService {
                 })
         );
     }
+    @Transactional
     public User save(User user) {
         return userMapper.convert(
                 userRepository.save(userMapper.convert(user))
         );
     }
+    @Transactional
     public User delete(String username) {
         Optional<UserEntity> optionalUserEntity=userRepository.findByUsername(username);
         if (optionalUserEntity.isPresent()) {
@@ -59,6 +62,7 @@ public class UserService {
         }
         throw new UserDoesntExist(username);
     }
+    @Transactional
     public ProfileImage updateProfileImage(String username,
                                            byte[] bytes,
                                            String mimeType) {

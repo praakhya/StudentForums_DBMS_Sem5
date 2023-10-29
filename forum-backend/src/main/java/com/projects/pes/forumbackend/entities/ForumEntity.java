@@ -21,6 +21,6 @@ public class ForumEntity {
     private Set<PostEntity> posts;
     @ManyToMany
     private Set<ResourceEntity> resources;
-    @ManyToMany
+    @ManyToMany(mappedBy = "forums")
     private Set<UserEntity> users;
 }
