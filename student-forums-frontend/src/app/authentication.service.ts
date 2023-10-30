@@ -89,6 +89,18 @@ export class AuthenticationService {
     console.log("options in user service: ",options)
     return this.httpClient.get<Forum>(`${this.baseUrl}/forum/${id}`,options);
   }
+  getForums(): Observable<Array<Forum>> {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<Array<Forum>>(`${this.baseUrl}/forum/brief`,options);
+  }
   postForum(name:string, id:string) {
     console.log("authorization: ",localStorage.getItem("token")?.toString())
     const httpHeaders = {
@@ -112,6 +124,21 @@ export class AuthenticationService {
 
   public isLoggedOut() {
     return !this.isLoggedIn();
+  }
+  subscribeToForum(username:string, forumId:string) {
+    var url = `${this.baseUrl}/forum/${forumId}/subscribe/${username}`
+    console.log("subscription url: ",url)
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    let body = {}
+    console.log("options in user service: ",options)
+    return this.httpClient.post<Forum>(url,body,options);
   }
 
   

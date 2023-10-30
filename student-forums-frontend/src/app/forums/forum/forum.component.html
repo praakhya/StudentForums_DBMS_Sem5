@@ -12,27 +12,35 @@
     </mat-card>
     <div class="content">
         <div class="addUser">
-            <mat-accordion multi>
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Users
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>
-                            User name
-                        </mat-list-item>
+            <span style="width:100%; display: flex; flex-direction:row; margin-top:1em">
+                <mat-form-field appearance="outline">
+                    <mat-label>Add a User</mat-label>
+                    <input matInput placeholder="Enter username" #username>
+                </mat-form-field>
+                <button mat-icon-button (click)="addUserToForum(username.value)">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+            <mat-expansion-panel style="width:100%">
+                <mat-expansion-panel-header style="width:100%">
+                    <mat-panel-title>
+                        Users
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list *ngFor="let user of this.forum?.users" style="width:100%">
+                    <mat-list-item style="width:100%">
+                        <img src="{{user.url}}" class="userAvatar" matListItemAvatar />
+                        <span class="mdc-image-list__label">{{user.username}}</span>
                         <mat-divider></mat-divider>
-                    </mat-list>
-                </mat-expansion-panel>
+                    </mat-list-item>
 
-
-            </mat-accordion>
-
+                </mat-list>
+            </mat-expansion-panel>
         </div>
         <div style="flex-grow: 1">
-
+            <mat-toolbar class="forum-tools">
+                <button mat-stroked-button (click)="openEditor()">Add Post +</button>
+            </mat-toolbar>
         </div>
     </div>
 

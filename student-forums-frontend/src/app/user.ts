@@ -6,7 +6,7 @@ export class User {
     password:string;
     email:string;
     name:string;
-    imgUrl:string|null = null;
+    url:string|null = null;
     role:string|null = null;
     contact:string|null = null;
     forums: Array<Forum>;

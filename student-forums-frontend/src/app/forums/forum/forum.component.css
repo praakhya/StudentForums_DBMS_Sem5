@@ -34,10 +34,19 @@
     display: flex;
     flex-direction: row;
     width: 90vw;
-    border: 1px solid black;
 
 }
 .addUser {
-    width: 20vw;
-    height: 50vh;
+    width: 25vw;
+    height: fit-content;
+    justify-self: flex-start;
+}
+.userAvatar {
+    height: 1em;
+    width: 1em;
+}
+.forum-tools {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
