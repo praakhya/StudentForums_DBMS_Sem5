@@ -26,7 +26,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+ 
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForumsComponent } from './forums/forums.component';
@@ -66,7 +69,10 @@ import { ForumComponent } from './forums/forum/forum.component';
     MatButtonToggleModule,
     MatDividerModule,
     MatListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatMenuModule,
+    MatExpansionModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

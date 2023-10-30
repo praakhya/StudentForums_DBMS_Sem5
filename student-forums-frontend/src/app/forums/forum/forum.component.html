@@ -1,12 +1,39 @@
 <div class="forum">
     <mat-card class="header">
+        <button mat-stroked-button (click)="navigateToForumHome()" class="back">Back</button>
         <mat-card-header class="titleRow">
             <div class="title">{{this.forum?.name}}</div>
             <button mat-icon-button class="more">
-                <mat-icon>more_vert</mat-icon>
+                <mat-icon>settings</mat-icon>
             </button>
         </mat-card-header>
-        
+
         <h3>Admin: {{this.forum?.admin?.name}}</h3>
     </mat-card>
+    <div class="content">
+        <div class="addUser">
+            <mat-accordion multi>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Users
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <mat-list-item>
+                            User name
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </mat-list>
+                </mat-expansion-panel>
+
+
+            </mat-accordion>
+
+        </div>
+        <div style="flex-grow: 1">
+
+        </div>
+    </div>
+
 </div>

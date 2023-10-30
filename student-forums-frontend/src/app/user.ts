@@ -6,19 +6,16 @@ export class User {
     password:string;
     email:string;
     name:string;
-    imgUrl:string;
-    role:string;
-    contact?:string;
+    imgUrl:string|null = null;
+    role:string|null = null;
+    contact:string|null = null;
     forums: Array<Forum>;
-    constructor(id:string, username:string, password:string, email:string, imgUrl:string,name:string, role:string, contact?:string) {
+    constructor(id:string, username:string, password:string, email:string,name:string) {
         this.id = id;
         this.username=username;
         this.password=password;
         this.email=email;
         this.name=name;
-        this.imgUrl = imgUrl;
-        this.role = role;
-        this.contact=contact;
         this.forums = [];
     }
 }

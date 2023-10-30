@@ -19,17 +19,13 @@
                     Student
                 </mat-button-toggle>
                 <mat-button-toggle value="faculty" aria-label="Text align center">
-                    faculty
+                    Faculty
                 </mat-button-toggle>
             </mat-button-toggle-group>
             <mat-card-content class="signup-inputs">
                 <div class="heading">{{group.value.charAt(0).toUpperCase() + group.value.slice(1)}} Details</div>
-                <div *ngIf="group.value=='student'">
-                    <input placeholder="Roll Number" class="input" #rollNo>
-                </div>
-                <div *ngIf="group.value=='faculty'">
-                    <input placeholder="Job Title" class="input" #rollNo>
-                </div>
+                    <input placeholder="Roll Number" *ngIf="group.value=='student'" class="input" [value]="rollNo">
+                    <input placeholder="Job Title" *ngIf="group.value=='faculty'" class="input" [value]="jobTitle">
                 <div>
                     <mat-label>Department</mat-label>
                     <mat-select #selectedDept>
@@ -40,9 +36,10 @@
                 </div>
                 <mat-card-actions class="signup-actions">
                     <button mat-stroked-button
-                        (click)="signup(username.value, email.value, name.value, password.value, confirmPassword.value, group.value, selectedDept.value)">Sign
+                        (click)="signup(username.value, email.value, name.value, password.value, confirmPassword.value, group.value, selectedDept.value, this.rollNo, this.jobTitle)">Sign
                         up</button>
                 </mat-card-actions>
             </mat-card-content>
         </div>
     </mat-card>
+

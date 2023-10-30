@@ -27,3 +27,17 @@
     text-align: left;
     width: fit-content;
 }
+.back {
+    align-self: flex-start;
+}
+.content {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    border: 1px solid black;
+
+}
+.addUser {
+    width: 20vw;
+    height: 50vh;
+}

@@ -27,9 +27,12 @@ export class ForumComponent {
       this.router.navigate([""]);
       return of();
     })).subscribe(f => {
-      console.log(f)
+      console.log("forum component: ",f)
       this.forum = f
     })
+  }
+  navigateToForumHome() {
+    this.router.navigate(["forums"])
   }
 
 }

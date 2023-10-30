@@ -5,6 +5,8 @@ import { Token } from './token';
 import { of, catchError, Observable, BehaviorSubject } from 'rxjs';
 import { Forum } from './forum';
 import { Output, EventEmitter } from '@angular/core';
+import { Student } from './student';
+import { Faculty } from './faculty';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +36,12 @@ export class AuthenticationService {
   }
   public postUser(user: User): Observable<User> {
     return this.httpClient.post<User>(this.baseUrl + "/users", user);
+  }
+  public postStudent(student: Student): Observable<Student> {
+    return this.httpClient.post<Student>(this.baseUrl + "/student", student);
+  }
+  public postFaculty(faculty: Faculty): Observable<Faculty> {
+    return this.httpClient.post<Faculty>(this.baseUrl + "/faculty", faculty);
   }
   public setSession(authResult: string) {
     localStorage.setItem('token', authResult);
