@@ -1,4 +1,12 @@
 <div class="forum-body">
+  <div class="search-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>Search for a forum</mat-label>
+      <input matInput placeholder="Search by name">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  <div class="content">
   <div class="forums-header">
     <h1> Your Forums </h1>
     <button mat-stroked-button (click)="toggleCreate()" *ngIf="userIsFaculty()">Create +</button>
@@ -27,4 +35,5 @@
     <mat-list-item (click)="openForum(forum.id)">{{forum.name}}</mat-list-item>
     <mat-divider></mat-divider>
   </mat-list>
+</div>
 </div>
