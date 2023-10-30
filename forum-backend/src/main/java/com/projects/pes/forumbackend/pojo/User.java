@@ -17,8 +17,7 @@ public class User{
     private String email;
     private String name;
     private String password;
-    private byte[] imageData;
-    private String mimeType;
+    private String imgUrl;
     private String contact;
     private Set<Forum>forums;
     private UserRole role;

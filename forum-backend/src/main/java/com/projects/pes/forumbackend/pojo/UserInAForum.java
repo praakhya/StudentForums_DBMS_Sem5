@@ -2,8 +2,9 @@ package com.projects.pes.forumbackend.pojo;
 
 import java.util.UUID;
 
-public record CreateUser(
+public record UserInAForum(
         UUID id,
-        String username
+        String username,
+        String url
 ) {
 }

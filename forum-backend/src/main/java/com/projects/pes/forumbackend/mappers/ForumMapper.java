@@ -6,6 +6,7 @@ import com.projects.pes.forumbackend.entities.UserEntity;
 import com.projects.pes.forumbackend.pojo.CreateForum;
 import com.projects.pes.forumbackend.pojo.Faculty;
 import com.projects.pes.forumbackend.pojo.Forum;
+import com.projects.pes.forumbackend.pojo.UserInAForum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +31,11 @@ public class ForumMapper {
     public Forum convert(ForumEntity forumEntity) {
         FacultyEntity facultyEntity = forumEntity.getAdmin();
         return new Forum(forumEntity.getId(),
-                new Faculty(facultyEntity.getId(), facultyEntity.getUsername(),facultyEntity.getEmail(), facultyEntity.getName(),null, null, null, null, null, null, null, null, null),
+                new Faculty(facultyEntity.getId(), facultyEntity.getUsername(),facultyEntity.getEmail(), facultyEntity.getName(),null, null, null, null, null, null, null, null),
                 forumEntity.getName(),
                 null,
                 null,
-                forumEntity.getUsers().stream().map(UserEntity::getId).collect(Collectors.toSet()));
+                forumEntity.getUsers().stream().map(u -> new UserInAForum(u.getId(), u.getUsername(), u.getPicture().getUrl())).collect(Collectors.toSet()));
     }
     public List<Forum> convert(List<ForumEntity> entities) {
         return entities.stream().map(this::convert).collect(Collectors.toList());

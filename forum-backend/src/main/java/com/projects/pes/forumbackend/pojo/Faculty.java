@@ -19,8 +19,7 @@ public class Faculty extends User {
                 String email,
                 String name,
                 String password,
-                byte[] imageData,
-                String mimeType,
+                String imgUrl,
                 String contact,
                 Set<Forum> forums,
                 String jobTitle,
@@ -28,7 +27,7 @@ public class Faculty extends User {
                 List<String>domains,
                 List<String> publications
         ) {
-            super(id,username,email,name,password,imageData,mimeType,contact,forums,UserRole.FACULTY);
+            super(id,username,email,name,password,imgUrl,contact,forums,UserRole.FACULTY);
             this.jobTitle = jobTitle;
             this.department = department;
             this.domains = domains;

@@ -11,13 +11,15 @@ public class PictureEntity {
     public PictureEntity() {
     }
 
-    public PictureEntity(byte[] imageData, String mimeType) {
+    public PictureEntity(byte[] imageData, String mimeType, String url) {
         this.imageData = imageData;
         this.mimeType = mimeType;
+        this.url = url;
     }
 
     @Lob
     @Column(name = "picture", columnDefinition="BLOB")
     private byte[] imageData;
     private String mimeType;
+    private String url;
 }

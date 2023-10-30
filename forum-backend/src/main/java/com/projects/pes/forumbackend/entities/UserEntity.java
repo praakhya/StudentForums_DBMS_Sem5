@@ -10,10 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -43,12 +40,12 @@ public class UserEntity implements UserDetails {
     private String contact;
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_forums",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "forum_id"))
-    private Set<ForumEntity> forums;
+    private List<ForumEntity> forums;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

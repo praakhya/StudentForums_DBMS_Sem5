@@ -1,9 +1,11 @@
 package com.projects.pes.forumbackend.services;
 
 import com.projects.pes.forumbackend.ForumBackendApplication;
+import com.projects.pes.forumbackend.entities.FacultyEntity;
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.entities.UserEntity;
+import com.projects.pes.forumbackend.exceptions.EntityDoesntExist;
 import com.projects.pes.forumbackend.exceptions.UserDoesntExist;
 import com.projects.pes.forumbackend.mappers.ForumMapper;
 import com.projects.pes.forumbackend.mappers.UserMapper;
@@ -32,7 +34,7 @@ public class UserService {
     private ServletContext servletContext;
 
     public Iterable<User> getUsers() {
-        List<User>  userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(
                 e->userList.add(userMapper.convert(e))
         );
@@ -69,7 +71,7 @@ public class UserService {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
         if (optionalUserEntity.isPresent()) {
             UserEntity entity = optionalUserEntity.get();
-            PictureEntity picture = new PictureEntity(bytes, mimeType);
+            PictureEntity picture = new PictureEntity(bytes, mimeType, Constants.Paths.USER_PATH + Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}",username));
             entity.setPicture(picture);
             entity = userRepository.save(entity);
             userMapper.convert(entity);

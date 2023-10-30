@@ -3,6 +3,7 @@ package com.projects.pes.forumbackend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,6 +22,6 @@ public class ForumEntity {
     private Set<PostEntity> posts;
     @ManyToMany
     private Set<ResourceEntity> resources;
-    @ManyToMany(mappedBy = "forums")
-    private Set<UserEntity> users;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "forums")
+    private List<UserEntity> users;
 }

@@ -6,8 +6,10 @@ import com.projects.pes.forumbackend.entities.StudentEntity;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.UserRole;
+import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -21,7 +23,7 @@ public class StudentMapper {
         studentEntity.setEmail(student.getEmail());
         studentEntity.setName(student.getName());
         studentEntity.setPassword(student.getPassword());
-        studentEntity.setPicture(new PictureEntity(student.getImageData(),student.getMimeType()));
+        studentEntity.setPicture(new PictureEntity(null,null, Constants.Paths.DUMMY_PROFILE_PICTURE));
         studentEntity.setContact(student.getContact());
         studentEntity.setRole(UserRole.STUDENT);
         studentEntity.setRollNo(student.getRollNo());
@@ -46,10 +48,9 @@ public class StudentMapper {
                 studentEntity.getEmail(),
                 studentEntity.getName(),
                 studentEntity.getPassword(),
-                imageData,
-                mimeType,
+                studentEntity.getPicture().getUrl(),
                 studentEntity.getContact(),
-                studentEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
+                studentEntity.getForums() == null ? new HashSet<>() : studentEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
                 studentEntity.getRollNo(),
                 studentEntity.getDepartment(),
                 studentEntity.getClassId(),

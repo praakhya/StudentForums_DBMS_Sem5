@@ -12,4 +12,5 @@ public interface UserRepository extends CrudRepository<UserEntity, UUID> {
     Optional<UserEntity> findByPosterId(String posterId);
     @Query("select u from UserEntity u where u.username = :username")
     Optional<UserEntity> findByUsername(String username);
+
 }

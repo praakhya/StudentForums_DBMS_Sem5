@@ -6,8 +6,10 @@ import com.projects.pes.forumbackend.entities.PictureEntity;
 import com.projects.pes.forumbackend.pojo.Faculty;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.UserRole;
+import com.projects.pes.forumbackend.utils.Constants;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,7 @@ public class FacultyMapper {
         facultyEntity.setEmail(faculty.getEmail());
         facultyEntity.setName(faculty.getName());
         facultyEntity.setPassword(faculty.getPassword());
-        facultyEntity.setPicture(new PictureEntity(faculty.getImageData(),faculty.getMimeType()));
+        facultyEntity.setPicture(new PictureEntity(null,null, Constants.Paths.DUMMY_PROFILE_PICTURE));
         facultyEntity.setContact(faculty.getContact());
         facultyEntity.setRole(UserRole.FACULTY);
         facultyEntity.setId(faculty.getId());
@@ -43,10 +45,9 @@ public class FacultyMapper {
                 facultyEntity.getEmail(),
                 facultyEntity.getName(),
                 facultyEntity.getPassword(),
-                imageData,
-                mimeType,
+                facultyEntity.getPicture().getUrl(),
                 facultyEntity.getContact(),
-                facultyEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
+                facultyEntity.getForums() == null ? new HashSet<>() : facultyEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
                 facultyEntity.getJobTitle(),
                 facultyEntity.getDepartment(),
                 facultyEntity.getDomains(),

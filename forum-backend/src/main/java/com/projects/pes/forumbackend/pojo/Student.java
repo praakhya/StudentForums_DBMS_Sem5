@@ -19,8 +19,7 @@ public class Student extends User {
          String email,
          String name,
          String password,
-         byte[] imageData,
-         String mimeType,
+         String imgUrl,
          String contact,
          Set<Forum> forums,
          String rollNo,
@@ -29,7 +28,7 @@ public class Student extends User {
          List<String>memberships,
          List<String> publications,
          List<String> skills) {
-        super(id,username,email,name,password,imageData,mimeType,contact,forums,UserRole.STUDENT);
+        super(id,username,email,name,password,imgUrl,contact,forums,UserRole.STUDENT);
         this.rollNo = rollNo;
         this.department = department;
         this.classId = classId;

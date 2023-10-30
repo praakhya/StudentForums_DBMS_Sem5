@@ -9,19 +9,20 @@ import com.projects.pes.forumbackend.exceptions.SubscriptionMappingDoesNotExist;
 import com.projects.pes.forumbackend.exceptions.UserDoesntExist;
 import com.projects.pes.forumbackend.mappers.ForumMapper;
 import com.projects.pes.forumbackend.mappers.PostMapper;
-import com.projects.pes.forumbackend.pojo.CreateForum;
-import com.projects.pes.forumbackend.pojo.Faculty;
-import com.projects.pes.forumbackend.pojo.Forum;
-import com.projects.pes.forumbackend.pojo.Post;
+import com.projects.pes.forumbackend.mappers.UserMapper;
+import com.projects.pes.forumbackend.pojo.*;
 import com.projects.pes.forumbackend.repositories.FacultyRepository;
 import com.projects.pes.forumbackend.repositories.ForumRepository;
 import com.projects.pes.forumbackend.repositories.PostRepository;
 import com.projects.pes.forumbackend.repositories.UserRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ForumService {
@@ -39,11 +40,18 @@ public class ForumService {
 
     @Autowired
     private PostMapper postMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private EntityManager entityManager;
 
     public Iterable<Forum> getForums() {
         List<Forum> forumList = new ArrayList<>();
         forumRepository.findAll().iterator().forEachRemaining(e -> forumList.add(forumMapper.convert(e)));
         return forumList;
+    }
+    public List getAllForums() {
+        return (List)entityManager.createNativeQuery("SELECT BIN_TO_UUID(f.id) as id, BIN_TO_UUID(f.admin_id) as adminId, f.name as name FROM forums f").getResultStream().collect(Collectors.toList());
     }
     public Forum getForum(String name) {
         return forumMapper.convert(forumRepository
@@ -58,13 +66,13 @@ public class ForumService {
         FacultyEntity facultyEntity
                 = facultyRepository.findById(forum.adminId()).orElseThrow(()->new EntityDoesntExist(forum.adminId().toString(), "faculty admin"));
         ForumEntity forumEntity = forumMapper.convert(forum, facultyEntity);
-        forumEntity.setUsers(new HashSet<>());
+        forumEntity.setUsers(new ArrayList<>());
         UserEntity facultyUserEntity = userRepository.findById(facultyEntity.getId()).get();
         if (facultyUserEntity.getForums() == null) {
-            facultyUserEntity.setForums(new HashSet<>());
+            facultyUserEntity.setForums(new ArrayList<>());
         }
         facultyUserEntity.getForums().add(forumEntity);
-        forumEntity.setUsers(new HashSet<>());
+        forumEntity.setUsers(new ArrayList<>());
         forumEntity.getUsers().add(facultyUserEntity);
         forumEntity = forumRepository.save(forumEntity);
         return forumMapper.convert(forumEntity);
@@ -116,13 +124,29 @@ public class ForumService {
         ForumEntity forumEntity = optionalForumEntity.orElseThrow(()->new EntityDoesntExist(forumId.toString(), "forum"));
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(()->new UserDoesntExist(userId.toString()));
         if (forumEntity.getUsers()==null) {
-            forumEntity.setUsers(new HashSet<>());
+            forumEntity.setUsers(new ArrayList<>());
         }
         forumEntity.getUsers().add(userEntity);
         if (userEntity.getForums()==null) {
-            userEntity.setForums(new HashSet<>());
+            userEntity.setForums(new ArrayList<>());
         }
         userEntity.getForums().add(forumEntity);
+        forumEntity = forumRepository.save(forumEntity);
+        return forumMapper.convert(forumEntity);
+    }
+    public Forum subscribeUserToForum(UUID forumId, String username) {
+        Optional<ForumEntity> optionalForumEntity = forumRepository.findById(forumId);
+        ForumEntity forumEntity = optionalForumEntity.orElseThrow(()->new EntityDoesntExist(forumId.toString(), "forum"));
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(()->new UserDoesntExist(username));
+        if (forumEntity.getUsers()==null) {
+            forumEntity.setUsers(new ArrayList<>());
+        }
+        forumEntity.getUsers().add(userEntity);
+        if (userEntity.getForums()==null) {
+            userEntity.setForums(new ArrayList<>());
+        }
+        userEntity.getForums().add(forumEntity);
+        userRepository.save(userEntity);
         forumEntity = forumRepository.save(forumEntity);
         return forumMapper.convert(forumEntity);
     }
@@ -143,4 +167,5 @@ public class ForumService {
         throw new SubscriptionMappingDoesNotExist(userEntity.getUsername(), forumEntity.getName());
 
     }
+
 }
