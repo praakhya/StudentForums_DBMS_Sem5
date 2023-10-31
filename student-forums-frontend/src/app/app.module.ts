@@ -29,6 +29,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTreeModule} from '@angular/material/tree';
+import {CdkTreeModule} from '@angular/cdk/tree';
 
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { DialogModule } from '@angular/cdk/dialog';
@@ -40,6 +42,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForumsComponent } from './forums/forums.component';
 import { ForumComponent } from './forums/forum/forum.component';
 import { PostComponent } from './post/post.component';
+import { PostsComponent } from './posts/posts.component';
+import { PostReplyComponent } from './post-reply/post-reply.component';
 
 
 @NgModule({
@@ -56,7 +60,9 @@ import { PostComponent } from './post/post.component';
     ForumsComponent,
     ForumComponent,
     PostComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    PostsComponent,
+    PostReplyComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +88,9 @@ import { PostComponent } from './post/post.component';
     MatExpansionModule,
     MatSnackBarModule,
     EditorModule,
-    DialogModule
+    DialogModule,
+    MatTreeModule,
+    CdkTreeModule
     
   ],
   providers: [],

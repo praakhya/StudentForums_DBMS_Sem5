@@ -141,7 +141,7 @@ export class AuthenticationService {
     console.log("options in user service: ",options)
     return this.httpClient.post<Forum>(url,body,options);
   }
-  createPost(forumId:string, username:string, data:string, type:string, title:string) {
+  createPost(forumId:string, data:string, type:string, title:string) {
     console.log("authorization: ",localStorage.getItem("token")?.toString())
     const httpHeaders = {
       'Content-Type':'application/json; charset=utf-8',
@@ -154,10 +154,22 @@ export class AuthenticationService {
       "type":type,
       "title":title,
       "content":data,
-      "posterName":username,
     }
     console.log("options in user service: ",options)
-    return this.httpClient.post<Post>(`${this.baseUrl}/${forumId}/forum`,body,options);
+    return this.httpClient.post<Post>(`${this.baseUrl}/forum/${forumId}/post`,body,options);
+  }
+  getPosts(forumId:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<Array<Post>>(`${this.baseUrl}/forum/${forumId}/post`,options);
+
   }
 
   

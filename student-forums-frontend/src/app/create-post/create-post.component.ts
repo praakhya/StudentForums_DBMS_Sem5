@@ -18,14 +18,15 @@ export class CreatePostComponent {
   }
   ngOnInit() {
     this.forumId = this.activatedRoute.snapshot.params["forumId"];
-    this.username = this.activatedRoute.snapshot.params["username"];
   }
   createPost(title:string, type:string) {
     //this.authenticationService.createPost(this.forumId, this.userId, this.dataModel, "Announcement", )
     console.log("title:", title);
     console.log("type:", type);
     console.log("content:",this.dataModel);
-    console.log("poster:",this.username);
+    this.authenticationService.createPost(this.forumId, this.dataModel, type, title).subscribe(p => {
+      console.log("new post: ",p)
+    });
   }
   goToForum() {
     this.router.navigate(["forums/"+this.forumId])

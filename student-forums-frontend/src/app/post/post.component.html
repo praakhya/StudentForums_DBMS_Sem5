@@ -1,1 +1,17 @@
-<div [innerHTML]="postData">{{postData}}</div>
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="display: flex; justify-content: space-evenly; align-items: center">
+        <mat-panel-title>
+            {{this.post!.title}}
+        </mat-panel-title>
+        <mat-panel-description style="display: flex; justify-content: space-between; align-items: center">
+            <span>{{this.post!.type}}</span>
+            <img src={{this.post!.posterImgUrl}} class="small-avatar" />
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-divider></mat-divider>
+    <div>
+        Poster: {{this.post!.posterName}}
+    </div>
+    <div [innerHTML]="this.post!.content">
+    </div>
+</mat-expansion-panel>

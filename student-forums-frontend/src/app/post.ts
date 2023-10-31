@@ -4,6 +4,8 @@ export class Post {
     title:string;
     content:string;
     posterId:string;
+    posterName:string="";
+    posterImgUrl:string="";
     parentId:string|null;
     posts:Array<Post>;
     resources:null = null;
@@ -23,6 +25,7 @@ export class Post {
         this.posterId = posterId;
         this.parentId = parentId;
         this.posts = posts;
+        
 
     }
 }

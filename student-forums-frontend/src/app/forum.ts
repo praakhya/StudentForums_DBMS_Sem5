@@ -1,10 +1,12 @@
 import { Faculty } from "./faculty";
+import { Post } from "./post";
 import { User } from "./user";
 
 export class Forum {
     id:string;
     admin: Faculty|null;
     name: string;
+    posts: Array<Post>;
     resources: null;
     users: Array<User>;
     constructor(id:string, name: string) {
@@ -13,5 +15,6 @@ export class Forum {
         this.admin = null;
         this.resources = null;
         this.users = [];
+        this.posts = []
     }
 }

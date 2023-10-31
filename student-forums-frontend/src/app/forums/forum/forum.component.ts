@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, of, Observable } from 'rxjs';
 import { Dialog } from '@angular/cdk/dialog';
 import { User } from 'src/app/user';
+import { Post } from 'src/app/post';
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
@@ -13,10 +14,12 @@ import { User } from 'src/app/user';
 
 export class ForumComponent {
   forum: Forum|null;
+  posts: Array<Post>;
   id:string;
   constructor(private authenticationService:AuthenticationService, private router:Router, private activatedRoute:ActivatedRoute, public dialog: Dialog) {
     this.id = ""
     this.forum = null;
+    this.posts = [];
   }
   ngOnInit() {
     this.getForum()
@@ -32,6 +35,14 @@ export class ForumComponent {
     })).subscribe(f => {
       console.log("forum component: ",f)
       this.forum = f
+      this.authenticationService.getPosts(this.id).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
+        console.error('Session Time Out', error);
+        localStorage.clear();
+        this.router.navigate([""]);
+        return of();
+      })).subscribe(p => {
+        this.posts = p;
+      })
     })
   }
   navigateToForumHome() {
