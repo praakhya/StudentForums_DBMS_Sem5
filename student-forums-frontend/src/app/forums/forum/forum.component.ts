@@ -51,7 +51,7 @@ export class ForumComponent {
   }
   openEditor(){
     var user = JSON.parse(localStorage.getItem("user")!) as User
-    this.router.navigate(["create-post",this.forum?.id, user.id])
+    this.router.navigate(["create-post",this.forum?.id, user.username])
 /*    this.dialog.open(CreatePostComponent, {
       data: {
         forumId: this.forum?.id,

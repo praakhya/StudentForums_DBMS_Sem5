@@ -7,6 +7,7 @@ import { Forum } from './forum';
 import { Output, EventEmitter } from '@angular/core';
 import { Student } from './student';
 import { Faculty } from './faculty';
+import { Post } from './post';
 @Injectable({
   providedIn: 'root'
 })
@@ -139,6 +140,24 @@ export class AuthenticationService {
     let body = {}
     console.log("options in user service: ",options)
     return this.httpClient.post<Forum>(url,body,options);
+  }
+  createPost(forumId:string, username:string, data:string, type:string, title:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    let body = {
+      "type":type,
+      "title":title,
+      "content":data,
+      "posterName":username,
+    }
+    console.log("options in user service: ",options)
+    return this.httpClient.post<Post>(`${this.baseUrl}/${forumId}/forum`,body,options);
   }
 
   
