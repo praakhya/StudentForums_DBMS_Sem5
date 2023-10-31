@@ -19,7 +19,7 @@ public class PostMapper {
         postEntity.setType(post.type());
         postEntity.setTitle(post.title());
         postEntity.setContent(post.content());
-        postEntity.setPosterId(post.posterId());
+        postEntity.setPosterName(post.posterName());
         postEntity.setParentId(post.parentId());
         return postEntity;
     }
@@ -29,9 +29,9 @@ public class PostMapper {
                 postEntity.getType(),
                 postEntity.getTitle(),
                 postEntity.getContent(),
-                postEntity.getPosterId(),
+                postEntity.getPosterName(),
                 postEntity.getParentId(),
-                postEntity.getPosts().stream().map(p -> new Post(p.getId(),p.getType(),p.getTitle(),p.getContent(),p.getPosterId(),p.getParentId(),null,null)).collect(Collectors.toSet()),
+                postEntity.getPosts().stream().map(p -> new Post(p.getId(),p.getType(),p.getTitle(),p.getContent(),p.getPosterName(),p.getParentId(),null,null)).collect(Collectors.toSet()),
                 postEntity.getResources().stream().map(r -> new Resource(r.getId(),null, r.getValidated(), r.getDateOfPublish(), r.getContentType())).collect(Collectors.toSet()));
     }
 

@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends CrudRepository<UserEntity, UUID> {
-    @Query("select p from PostEntity p where p.posterId = :posterId")
-    Optional<UserEntity> findByPosterId(String posterId);
+    @Query("select p from PostEntity p where p.posterName = :posterName")
+    Optional<UserEntity> findByPosterName(String posterName);
     @Query("select u from UserEntity u where u.username = :username")
     Optional<UserEntity> findByUsername(String username);
 

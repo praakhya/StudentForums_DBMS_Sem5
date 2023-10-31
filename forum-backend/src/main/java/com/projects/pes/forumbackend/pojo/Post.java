@@ -14,7 +14,7 @@ public record Post(
          String type,
          String title,
          String content,
-         UUID posterId,
+         String posterName,
          UUID parentId,
          Set<Post> posts,
          Set<Resource> resources
