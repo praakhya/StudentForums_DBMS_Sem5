@@ -19,6 +19,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -78,7 +80,10 @@ public class ForumService {
         return forumMapper.convert(forumEntity);
     }
     @Transactional
-    public Post createPostInForum(UUID forumId, Post post) {
+    public Post createPostInForum(UUID forumId, Post jsonPost) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        Post post = new Post(null, jsonPost.type(), jsonPost.title(), jsonPost.content(), userEntity.getId(), userEntity.getUsername(), userEntity.getPicture().getUrl(), jsonPost.parentId(), jsonPost.posts(), jsonPost.resources());
         Optional<ForumEntity>optionalForumEntity = forumRepository.findById(forumId);
         if (optionalForumEntity.isPresent()) {
             PostEntity postEntity = postMapper.convert(post);
@@ -95,7 +100,7 @@ public class ForumService {
                 if (optionalPostEntity.isPresent()) {
                     PostEntity parentPostEntity = optionalPostEntity.get();
                     if (parentPostEntity.getPosts()==null) {
-                        parentPostEntity.setPosts(new HashSet<>());
+                        parentPostEntity.setPosts(new ArrayList<>());
                     }
                     parentPostEntity.getPosts().add(postEntity);
                     postRepository.save(parentPostEntity);
@@ -103,9 +108,14 @@ public class ForumService {
             }
 
             forumRepository.save(forumEntity);
-            return postMapper.convert(postEntity);
+            return postMapper.convert(postEntity, userRepository);
         }
         throw new EntityDoesntExist(forumId.toString(), "Forum");
+    }
+    @Transactional
+    public Iterable<Post> getPosts(UUID forumId) {
+        ForumEntity forumEntity = forumRepository.findById(forumId).orElseThrow(() -> new EntityDoesntExist(forumId.toString(), "forum"));
+        return forumEntity.getPosts() == null ? new ArrayList<>() : forumEntity.getPosts().stream().map(p -> postMapper.convert(p, userRepository)).collect(Collectors.toList());
     }
     @Transactional
     public Forum delete(String name) {

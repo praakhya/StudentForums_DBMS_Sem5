@@ -3,11 +3,15 @@ package com.projects.pes.forumbackend.mappers;
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PostEntity;
 import com.projects.pes.forumbackend.entities.ResourceEntity;
+import com.projects.pes.forumbackend.entities.UserEntity;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Post;
 import com.projects.pes.forumbackend.pojo.Resource;
+import com.projects.pes.forumbackend.repositories.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,23 +23,23 @@ public class PostMapper {
         postEntity.setType(post.type());
         postEntity.setTitle(post.title());
         postEntity.setContent(post.content());
-        postEntity.setPosterName(post.posterName());
+        postEntity.setPosterId(post.posterId());
         postEntity.setParentId(post.parentId());
         return postEntity;
     }
 
-    public Post convert(PostEntity postEntity) {
+    public Post convert(PostEntity postEntity,
+                        UserRepository userRepository) {
+        UserEntity userEntity = userRepository.findById(postEntity.getPosterId()).orElseThrow(() -> new UsernameNotFoundException(postEntity.getPosterId().toString()));
         return new Post(postEntity.getId(),
                 postEntity.getType(),
                 postEntity.getTitle(),
                 postEntity.getContent(),
-                postEntity.getPosterName(),
+                postEntity.getPosterId(),
+                userEntity.getUsername(),
+                userEntity.getPicture().getUrl(),
                 postEntity.getParentId(),
-                postEntity.getPosts().stream().map(p -> new Post(p.getId(),p.getType(),p.getTitle(),p.getContent(),p.getPosterName(),p.getParentId(),null,null)).collect(Collectors.toSet()),
-                postEntity.getResources().stream().map(r -> new Resource(r.getId(),null, r.getValidated(), r.getDateOfPublish(), r.getContentType())).collect(Collectors.toSet()));
-    }
-
-    public List<Post> convert(List<PostEntity> entities) {
-        return entities.stream().map(this::convert).collect(Collectors.toList());
+                postEntity.getPosts() == null ? new ArrayList<>() : postEntity.getPosts().stream().map(p -> convert(p, userRepository)).collect(Collectors.toList()),
+                postEntity.getResources() == null ? new ArrayList<>() : postEntity.getResources().stream().map(r -> new Resource(r.getId(),null, r.getValidated(), r.getDateOfPublish(), r.getContentType())).collect(Collectors.toList()));
     }
 }

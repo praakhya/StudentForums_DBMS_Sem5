@@ -3,6 +3,7 @@ package com.projects.pes.forumbackend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,10 +17,10 @@ public class PostEntity {
     private String type;
     private String title;
     private String content;
-    private String posterName;
+    private UUID posterId;
     private UUID parentId;
     @OneToMany
-    private Set<PostEntity> posts;
+    private List<PostEntity> posts;
     @ManyToMany
-    private Set<ResourceEntity> resources;
+    private List<ResourceEntity> resources;
 }

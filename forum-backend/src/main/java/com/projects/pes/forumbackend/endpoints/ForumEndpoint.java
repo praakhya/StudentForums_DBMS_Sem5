@@ -41,6 +41,10 @@ public class ForumEndpoint {
     public Optional<Post> save(@PathVariable("forumId") UUID forumId, @RequestBody Post post) {
         return Optional.of(forumService.createPostInForum(forumId,post));
     }
+    @RequestMapping(value=Constants.Paths.POST_IN_A_FORUM_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Iterable<Post>> getPosts(@PathVariable("forumId") UUID forumId) {
+        return Optional.of(forumService.getPosts(forumId));
+    }
 /*    @RequestMapping(value=Constants.Paths.SUBSCRIBE_TO_A_FORUM_PATH, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<Forum> subscribe(@PathVariable("forumId") UUID forumId, @PathVariable("userId") UUID userId) {
         return Optional.of(forumService.subscribeUserToForum(forumId,userId));
