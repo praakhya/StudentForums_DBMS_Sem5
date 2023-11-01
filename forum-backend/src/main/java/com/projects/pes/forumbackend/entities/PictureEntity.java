@@ -18,7 +18,7 @@ public class PictureEntity {
     }
 
     @Lob
-    @Column(name = "picture", columnDefinition="BLOB")
+    @Column(name = "picture", columnDefinition="LONGBLOB")
     private byte[] imageData;
     private String mimeType;
     private String url;

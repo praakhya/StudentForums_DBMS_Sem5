@@ -37,7 +37,7 @@ public class UserMapper {
                 userEntity.getEmail(),
                 userEntity.getName(),
                 userEntity.getPassword(),
-                userEntity.getPicture().getUrl(),
+                userEntity.getPicture().getUrl() + "?" + System.currentTimeMillis(),
                 userEntity.getContact(),
                 userEntity.getForums() == null ? new HashSet<>() : userEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
                 userEntity.getRole()

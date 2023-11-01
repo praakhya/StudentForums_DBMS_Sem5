@@ -88,7 +88,7 @@ public class UserService {
             UserEntity entity = optionalUserEntity.get();
             if (entity.getPicture() != null && entity.getPicture().getImageData() != null) {
 
-                Optional.of(new ProfileImage(username,
+                return Optional.of(new ProfileImage(username,
                         Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
                         entity.getPicture().getMimeType(),
                         entity.getPicture().getImageData()));
