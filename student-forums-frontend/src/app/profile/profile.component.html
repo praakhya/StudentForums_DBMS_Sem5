@@ -1,12 +1,15 @@
 <div class="full-screen horizontal-center">
-    <div class="card two-column profile-card" *ngIf="this.user">
+    <div class="card two-column profile-card" *ngIf="isLoggedIn()">
         <div class="column profile-column">
             <div class="circle profile"><img src={{this.user.imgUrl}} class="profile-image"/></div>
             <p>{{this.user.username}}</p>
-            <button mat-stroked-button>
-                <span>Edit Profile Picture</span>
-                <mat-icon fontIcon="edit"></mat-icon>
-            </button>
+            <div class="upload-btn-wrapper">
+                <button mat-stroked-button disabled style="border-color: black; color:black">
+                    <span>Edit Profile Picture</span>
+                    <mat-icon fontIcon="edit"></mat-icon>
+                </button>
+                <input type="file" name="myfile" (change)="uploadFile($event)"/>
+              </div>
         </div>
         <mat-card class="column">
             <h1>User Information</h1>
@@ -53,7 +56,7 @@
             <app-faculty-profile *ngIf="this.profileType=='Faculty'"></app-faculty-profile>-->
         </mat-card>
     </div>
-    <div class="card two-column profile-card" *ngIf="!this.user">
+    <div class="card two-column profile-card" *ngIf="!isLoggedIn()">
         Log in to view your profile
     </div>
 </div>

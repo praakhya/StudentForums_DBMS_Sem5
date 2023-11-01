@@ -3,6 +3,7 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { catchError, of, Observable } from 'rxjs';
 import { User } from '../user';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -10,19 +11,34 @@ import { User } from '../user';
 })
 export class ProfileComponent {
   user?: any
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  baseUrl: string = "/api";
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService, private router: Router) {
     this.user = null;
     //this.profileType="Student";
     console.log(this.user)
   }
   ngOnInit() {
-    if (this.authenticationService.isLoggedIn()) {
-      this.user = JSON.parse(localStorage.getItem("user")!) as User
-      
-    } else {
-      this.authenticationService.user.subscribe(u=> {
+    this.authenticationService.user.subscribe(u => {
         this.user = u
+        console.log(this.user)
       })
-    }
   }
+  uploadFile(event: any) {
+    const file = event.target.files[0];
+    console.log(event)
+    this.authenticationService.uploadFile(file, "image").pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
+      console.error('Session Time Out', error);
+      localStorage.clear();
+      return of();
+    })).subscribe(pi => {
+      console.log("profile image:",pi)
+      this.authenticationService.setSession(localStorage.getItem("token")!)
+    })
+  }
+  isLoggedIn() {
+    return this.authenticationService.isLoggedIn()
+  }
+
+
+
 }

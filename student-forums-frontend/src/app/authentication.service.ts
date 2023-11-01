@@ -8,6 +8,7 @@ import { Output, EventEmitter } from '@angular/core';
 import { Student } from './student';
 import { Faculty } from './faculty';
 import { Post } from './post';
+import { ProfileImage } from './profile-image';
 @Injectable({
   providedIn: 'root'
 })
@@ -54,11 +55,9 @@ export class AuthenticationService {
     })).subscribe(u => {
       var user = u;
       console.log(u)
-      if (u) {
-        user.imgUrl = `/api/user/image/${u.username}`;
-      }
       localStorage.setItem("user", JSON.stringify(user));
       this.user.next(u)
+      console.log("user in auth:",this.user.getValue())
     })
     console.log("token set at login")
   }
@@ -191,6 +190,23 @@ export class AuthenticationService {
     console.log("options in user service: ",options)
     return this.httpClient.get<Array<Post>>(`${this.baseUrl}/forum/${forumId}/post`,options);
 
+  }
+  uploadFile(file:any, multiPartVar:string) {
+    const formData = new FormData();
+    formData.append('image', file);
+    var user = this.user.getValue();
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    console.log("file name:",file, " form data ", formData)
+    const httpHeaders = {
+//      'Content-Type':'multipart/form-data',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    // Perform the HTTP request
+    return this.httpClient.post<ProfileImage>(`${this.baseUrl}/user/image/${user?.username}`, formData,options)
   }
 
   
