@@ -8,6 +8,7 @@ import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Post;
 import com.projects.pes.forumbackend.pojo.Resource;
 import com.projects.pes.forumbackend.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PostMapper {
+    @Autowired
+    private ResourceMapper resourceMapper;
     public PostEntity convert(Post post) {
         PostEntity postEntity = new PostEntity();
         postEntity.setId(post.id());
@@ -40,6 +43,6 @@ public class PostMapper {
                 userEntity.getPicture().getUrl(),
                 postEntity.getParentId(),
                 postEntity.getPosts() == null ? new ArrayList<>() : postEntity.getPosts().stream().map(p -> convert(p, userRepository)).collect(Collectors.toList()),
-                postEntity.getResources() == null ? new ArrayList<>() : postEntity.getResources().stream().map(r -> new Resource(r.getId(),null, r.getValidated(), r.getDateOfPublish(), r.getContentType())).collect(Collectors.toList()));
+                postEntity.getResources() == null ? new ArrayList<>() : postEntity.getResources().stream().map(r -> resourceMapper.convert(r, false)).collect(Collectors.toList()));
     }
 }

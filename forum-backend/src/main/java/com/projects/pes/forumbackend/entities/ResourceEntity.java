@@ -14,11 +14,14 @@ public class ResourceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private String name;
     private UUID validatorId;
     private Boolean validated;
     private Date dateOfPublish;
     private String contentType;
+    @Column(name = "contentData", columnDefinition="LONGBLOB")
     private byte[] contentData;
+    private String ownerName;
     @ManyToMany
     private Set<PostEntity> posts;
     @ManyToMany

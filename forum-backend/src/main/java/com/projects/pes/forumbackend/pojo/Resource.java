@@ -11,9 +11,13 @@ import java.util.UUID;
 
 public record Resource(
          UUID id,
+         String name,
+         String ownerName,
          UUID validatorId,
          Boolean validated,
          Date dateOfPublish,
-         String contentType
+         String contentType,
+         byte[] content,
+         String url
 ) {
 }
