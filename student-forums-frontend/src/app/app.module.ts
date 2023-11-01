@@ -44,6 +44,8 @@ import { PostComponent } from './post/post.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostReplyComponent } from './post-reply/post-reply.component';
 import { ReplyToPostComponent } from './reply-to-post/reply-to-post.component';
+import { ResourcesComponent } from './resources/resources.component';
+import { DragDirective } from './dragDrop.directive';
 
 
 @NgModule({
@@ -63,7 +65,9 @@ import { ReplyToPostComponent } from './reply-to-post/reply-to-post.component';
     CreatePostComponent,
     PostsComponent,
     PostReplyComponent,
-    ReplyToPostComponent
+    ReplyToPostComponent,
+    ResourcesComponent,
+    DragDirective
   ],
   imports: [
     BrowserModule,

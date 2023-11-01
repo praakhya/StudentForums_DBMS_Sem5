@@ -1,0 +1,38 @@
+<mat-card class="uploader">
+    <mat-card-header>
+        <mat-card-title>
+            <h1>My Resources</h1>
+        </mat-card-title>
+        <mat-card-subtitle>Upload files for quick reference</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngIf="!files.length" class="col-12 rmpm dropzone" appDrag (files)="filesDropped($event)">
+            <div class="text-wrapper">
+                <div class="centered">Drop your file here!</div>
+            </div>
+        </div>
+        <!--droped image preview-->
+        <div *ngFor="let file of files">
+            <img *ngIf="file" [src]="file.url" width="100px" height="100px">
+        </div>
+
+    </mat-card-content>
+        
+    <mat-card-actions class="actions">
+        <span>
+            <button type="button" mat-stroked-button (click)="fileInput.click()">Choose File</button>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+        </span>
+        <button mat-stroked-button (click)="uploadFile()">
+            <span>Upload</span>
+            <mat-icon>upload</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>
+<div class="resource-list">
+    <div *ngFor="let resource of this.resources">
+        <div>{{resource.ownerName}}</div>
+        <div>{{resource.name}}</div>
+    </div>
+
+</div>

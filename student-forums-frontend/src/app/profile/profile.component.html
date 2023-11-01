@@ -1,4 +1,4 @@
-<div class="full-screen horizontal-center">
+<div class="full-screen horizontal-center" *ngIf="this.user">
     <div class="card two-column profile-card" *ngIf="isLoggedIn()">
         <div class="column profile-column">
             <div class="circle profile"><img src={{this.user.imgUrl}} class="profile-image"/></div>

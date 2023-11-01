@@ -9,6 +9,7 @@ import { Student } from './student';
 import { Faculty } from './faculty';
 import { Post } from './post';
 import { ProfileImage } from './profile-image';
+import { Resource } from './resource';
 @Injectable({
   providedIn: 'root'
 })
@@ -191,9 +192,9 @@ export class AuthenticationService {
     return this.httpClient.get<Array<Post>>(`${this.baseUrl}/forum/${forumId}/post`,options);
 
   }
-  uploadFile(file:any, multiPartVar:string) {
+  uploadImage(file:any, multiPartVar:string) {
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append(multiPartVar, file);
     var user = this.user.getValue();
     console.log("authorization: ",localStorage.getItem("token")?.toString())
     console.log("file name:",file, " form data ", formData)
@@ -206,7 +207,39 @@ export class AuthenticationService {
     };
     console.log("options in user service: ",options)
     // Perform the HTTP request
-    return this.httpClient.post<ProfileImage>(`${this.baseUrl}/user/image/${user?.username}`, formData,options)
+      return this.httpClient.post<ProfileImage>(`${this.baseUrl}/user/image/${user?.username}`, formData,options)
+  }
+  uploadFile(file:any, multiPartVar:string) {
+    var path = `${this.baseUrl}/resource/file`
+    const formData = new FormData();
+    formData.append(multiPartVar, file.file);
+    var user = this.user.getValue();
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    console.log("file name:",file, " form data ", formData)
+    const httpHeaders = {
+//      'Content-Type':'multipart/form-data',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    // Perform the HTTP request
+      return this.httpClient.post<Resource>(path,formData,options)
+
+  }
+  getResources() {
+    var user = JSON.parse(localStorage.getItem("user")!) as User; 
+    var path = `${this.baseUrl}/resource/user/${user?.username}`
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<Array<Resource>>(path,options);
   }
 
   

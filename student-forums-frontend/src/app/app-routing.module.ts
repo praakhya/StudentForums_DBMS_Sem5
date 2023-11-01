@@ -8,13 +8,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForumsComponent } from './forums/forums.component';
 import { ForumComponent } from './forums/forum/forum.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { ResourcesComponent } from './resources/resources.component';
 const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   {path: '', component: HomeComponent},
   {path: 'home', component: DashboardComponent},
   {path: 'forums', component: ForumsComponent},
   {path: 'forums/:id', component:ForumComponent},
-  {path: 'create-post/:forumId/:userId',component:CreatePostComponent}
+  {path: 'create-post/:forumId/:userId',component:CreatePostComponent},
+  {path: 'resources', component:ResourcesComponent}
 ];
 
 @NgModule({

@@ -1,0 +1,33 @@
+.uploader {
+    width: 90vw;
+}
+.dropzone {
+min-height: 5em;
+height: 10em;
+width: 100%;
+display: table;
+background-color: gray;
+border: 1px dashed black;
+border-radius: 1em;
+}
+
+.text-wrapper {
+display: table-cell;
+vertical-align: middle;
+}
+
+.centered {
+font-family: sans-serif;
+font-size: 1.3em;
+font-weight: bold;
+text-align:center;
+}
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+.resource-list {
+    width: 90vw;
+    display: flex;
+    gap: 1em;
+}
