@@ -17,7 +17,7 @@ public class ForumEntity {
     @ManyToOne
     private FacultyEntity admin;
     private String name;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="id", referencedColumnName="id", foreignKey=@ForeignKey(name = "Fk_forums_posts"))
     private Set<PostEntity> posts;
     @ManyToMany

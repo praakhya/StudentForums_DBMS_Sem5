@@ -19,7 +19,7 @@ public class PostEntity {
     private String content;
     private UUID posterId;
     private UUID parentId;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PostEntity> posts;
     @ManyToMany
     private List<ResourceEntity> resources;

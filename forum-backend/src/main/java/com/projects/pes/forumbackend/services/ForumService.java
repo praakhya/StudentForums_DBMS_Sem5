@@ -178,4 +178,37 @@ public class ForumService {
 
     }
 
+    @Transactional
+    public Post deletePostFromAForum(UUID forumId, UUID postId) {
+        ForumEntity forumEntity = forumRepository.findById((forumId)).orElseThrow(() -> new EntityDoesntExist(forumId.toString(), "forum"));
+        if (forumEntity.getPosts() != null && !forumEntity.getPosts().isEmpty()) {
+
+            PostEntity tempPostEntity = postRepository.findById(postId).orElseThrow(()->new EntityDoesntExist(postId.toString(),"post"));
+            if (tempPostEntity.getParentId() == null) {
+                for (PostEntity postEntity : forumEntity.getPosts()) {
+                if (postEntity.getId().equals(postId)) {
+                        Post post = postMapper.convert(postEntity, userRepository);
+                        forumEntity.getPosts().remove(postEntity);
+                        forumRepository.save(forumEntity);
+                        postRepository.deleteById(postId);
+                        return post;
+                    }
+                }
+            }
+            else {
+                PostEntity parentPostEntity = postRepository.findById(tempPostEntity.getParentId()).orElseThrow(()->new EntityDoesntExist(tempPostEntity.getParentId().toString(), "parent id"));
+                for (PostEntity cpe : parentPostEntity.getPosts()) {
+                    if (cpe.getId().equals(postId)) {
+                        Post post = postMapper.convert(cpe, userRepository);
+                        parentPostEntity.getPosts().remove(cpe);
+                        forumRepository.save(forumEntity);
+                        postRepository.save(parentPostEntity);
+                        postRepository.delete(cpe);
+                        return post;
+                    }
+                }
+            }
+        }
+        throw new EntityDoesntExist(postId.toString(), "post");
+    }
 }

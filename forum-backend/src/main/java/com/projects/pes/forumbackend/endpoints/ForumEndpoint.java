@@ -41,6 +41,10 @@ public class ForumEndpoint {
     public Optional<Post> save(@PathVariable("forumId") UUID forumId, @RequestBody Post post) {
         return Optional.of(forumService.createPostInForum(forumId,post));
     }
+    @RequestMapping(value=Constants.Paths.DELETE_POST_FROM_A_FORUM_PATH, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Post> delete(@PathVariable("forumId") UUID forumId, @PathVariable("postId") UUID postId) {
+        return Optional.of(forumService.deletePostFromAForum(forumId,postId));
+    }
     @RequestMapping(value=Constants.Paths.POST_IN_A_FORUM_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<Iterable<Post>> getPosts(@PathVariable("forumId") UUID forumId) {
         return Optional.of(forumService.getPosts(forumId));
