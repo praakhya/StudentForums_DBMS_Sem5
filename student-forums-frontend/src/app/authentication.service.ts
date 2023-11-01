@@ -15,6 +15,7 @@ export class AuthenticationService {
   public baseUrl = "/api";
   @Output()
   user: BehaviorSubject<User|null> = new BehaviorSubject<User|null>(null)
+  posts: BehaviorSubject<Array<Post>> = new BehaviorSubject<Array<Post>>([])
   constructor(private httpClient: HttpClient) {
   }
 
@@ -126,6 +127,19 @@ export class AuthenticationService {
   public isLoggedOut() {
     return !this.isLoggedIn();
   }
+  deletePost(postId:string, forumId:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.delete<Post>(`${this.baseUrl}/forum/${forumId}/post/${postId}`,options);
+
+  }
   subscribeToForum(username:string, forumId:string) {
     var url = `${this.baseUrl}/forum/${forumId}/subscribe/${username}`
     console.log("subscription url: ",url)
@@ -141,7 +155,7 @@ export class AuthenticationService {
     console.log("options in user service: ",options)
     return this.httpClient.post<Forum>(url,body,options);
   }
-  createPost(forumId:string, data:string, type:string, title:string) {
+  createPost(forumId:string, data:string, type:string, title:string, parentId:string|null) {
     console.log("authorization: ",localStorage.getItem("token")?.toString())
     const httpHeaders = {
       'Content-Type':'application/json; charset=utf-8',
@@ -154,9 +168,16 @@ export class AuthenticationService {
       "type":type,
       "title":title,
       "content":data,
+      "parentId":parentId
     }
     console.log("options in user service: ",options)
     return this.httpClient.post<Post>(`${this.baseUrl}/forum/${forumId}/post`,body,options);
+  }
+  reloadPosts(forumId:string) {
+    this.getPosts(forumId).subscribe(p => {
+      this.posts.next(p);
+    })
+
   }
   getPosts(forumId:string) {
     console.log("authorization: ",localStorage.getItem("token")?.toString())

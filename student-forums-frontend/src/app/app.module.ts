@@ -30,7 +30,6 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTreeModule} from '@angular/material/tree';
-import {CdkTreeModule} from '@angular/cdk/tree';
 
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { DialogModule } from '@angular/cdk/dialog';
@@ -44,6 +43,7 @@ import { ForumComponent } from './forums/forum/forum.component';
 import { PostComponent } from './post/post.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostReplyComponent } from './post-reply/post-reply.component';
+import { ReplyToPostComponent } from './reply-to-post/reply-to-post.component';
 
 
 @NgModule({
@@ -62,7 +62,8 @@ import { PostReplyComponent } from './post-reply/post-reply.component';
     PostComponent,
     CreatePostComponent,
     PostsComponent,
-    PostReplyComponent
+    PostReplyComponent,
+    ReplyToPostComponent
   ],
   imports: [
     BrowserModule,
@@ -89,8 +90,7 @@ import { PostReplyComponent } from './post-reply/post-reply.component';
     MatSnackBarModule,
     EditorModule,
     DialogModule,
-    MatTreeModule,
-    CdkTreeModule
+    MatTreeModule
     
   ],
   providers: [],

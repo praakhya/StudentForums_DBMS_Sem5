@@ -4,7 +4,6 @@ import { Forum } from '../forum';
 import { Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
 import { User } from '../user';
-import { NonNullAssert } from '@angular/compiler';
 @Component({
   selector: 'app-forums',
   templateUrl: './forums.component.html',

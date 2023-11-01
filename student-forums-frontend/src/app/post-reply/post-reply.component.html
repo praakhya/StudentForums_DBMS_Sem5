@@ -1,1 +1,13 @@
-<p>post-reply works!</p>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>Replies</mat-expansion-panel-header>
+  <span *ngIf="this.posts?.length==0">No replies yet</span>
+  <mat-expansion-panel *ngFor="let post of this.posts">
+    <mat-expansion-panel-header class="postRef">
+      <mat-panel-title>
+        <span>{{post.title}}</span>
+        </mat-panel-title>
+      <mat-panel-description>{{post.id}}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-post [post]="post" [forumId]="this.forumId"></app-post>
+  </mat-expansion-panel>
+</mat-expansion-panel>

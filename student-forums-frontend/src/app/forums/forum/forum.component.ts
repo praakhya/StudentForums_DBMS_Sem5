@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication.service';
 import { Forum } from 'src/app/forum';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, of, Observable } from 'rxjs';
+import { catchError, of, Observable, BehaviorSubject } from 'rxjs';
 import { Dialog } from '@angular/cdk/dialog';
 import { User } from 'src/app/user';
 import { Post } from 'src/app/post';
+import { UIService } from 'src/app/ui.service';
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
@@ -16,13 +17,17 @@ export class ForumComponent {
   forum: Forum|null;
   posts: Array<Post>;
   id:string;
-  constructor(private authenticationService:AuthenticationService, private router:Router, private activatedRoute:ActivatedRoute, public dialog: Dialog) {
+  currentForumSetting:boolean = false;
+  constructor(private authenticationService:AuthenticationService, private router:Router, private activatedRoute:ActivatedRoute, public dialog: Dialog, private uiService: UIService) {
     this.id = ""
     this.forum = null;
     this.posts = [];
   }
   ngOnInit() {
     this.getForum()
+    this.authenticationService.posts.subscribe(p => {
+      this.posts = p
+    })
   }
   getForum() {
     this.id = this.activatedRoute.snapshot.params["id"];
@@ -41,6 +46,7 @@ export class ForumComponent {
         this.router.navigate([""]);
         return of();
       })).subscribe(p => {
+        this.authenticationService.posts.next(p);
         this.posts = p;
       })
     })
@@ -60,6 +66,11 @@ export class ForumComponent {
       this.forum = f
     })
   }
+  isFaculty() {
+    var user = JSON.parse(localStorage.getItem("user")!) as User
+    console.log("role: ",user.role)
+    return user.role=="FACULTY"
+  }
   openEditor(){
     var user = JSON.parse(localStorage.getItem("user")!) as User
     this.router.navigate(["create-post",this.forum?.id, user.username])
@@ -69,6 +80,10 @@ export class ForumComponent {
         poster:JSON.parse(localStorage.getItem("user")!) as User
       },
     });*/
+  }
+  editForum() {
+    this.currentForumSetting = !this.currentForumSetting
+    this.uiService.forumSettingMode.next(this.currentForumSetting)
   }
   
  

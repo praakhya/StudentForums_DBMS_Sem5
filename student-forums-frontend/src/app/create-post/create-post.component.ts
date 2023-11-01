@@ -24,8 +24,9 @@ export class CreatePostComponent {
     console.log("title:", title);
     console.log("type:", type);
     console.log("content:",this.dataModel);
-    this.authenticationService.createPost(this.forumId, this.dataModel, type, title).subscribe(p => {
+    this.authenticationService.createPost(this.forumId, this.dataModel, type, title, null).subscribe(p => {
       console.log("new post: ",p)
+      this.router.navigate(["forums/"+this.forumId])
     });
   }
   goToForum() {

@@ -1,11 +1,19 @@
-.posts {
-    width:100%;
-    height: 100%;
-    overflow-y: scroll;
-}
+
 .small-avatar {
     width:2em;
     height:2em;
     justify-self: baseline;
     border-radius: 100%;
+}
+.post {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.post-header {
+    position: relative;
+}
+.deleteButton {
+    position: absolute;
+    right: 1em;
+    top:1em
 }

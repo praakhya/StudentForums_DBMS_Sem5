@@ -1,0 +1,11 @@
+.node {
+    display: flex;
+    flex-direction: column;
+    width:fit-content;
+    height: fit-content;
+    padding: 2px;
+    align-items: flex-start;
+}
+.postRef {
+    color:grey;
+}

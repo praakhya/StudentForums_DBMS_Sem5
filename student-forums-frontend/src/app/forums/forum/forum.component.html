@@ -3,7 +3,7 @@
         <button mat-stroked-button (click)="navigateToForumHome()" class="back">Back</button>
         <mat-card-header class="titleRow">
             <div class="title">{{this.forum?.name}}</div>
-            <button mat-icon-button class="more">
+            <button mat-icon-button *ngIf="isFaculty()" (click)="this.editForum()" class="more">
                 <mat-icon>settings</mat-icon>
             </button>
         </mat-card-header>
@@ -12,7 +12,7 @@
     </mat-card>
     <div class="content">
         <div class="addUser">
-            <span style="width:100%; display: flex; flex-direction:row; margin-top:1em">
+            <span style="width:100%; display: flex; flex-direction:row; margin-top:1em" *ngIf="isFaculty()">
                 <mat-form-field appearance="outline">
                     <mat-label>Add a User</mat-label>
                     <input matInput placeholder="Enter username" #username>
@@ -41,7 +41,7 @@
             <mat-toolbar class="forum-tools">
                 <button mat-stroked-button (click)="openEditor()">Add Post +</button>
             </mat-toolbar>
-            <app-posts [posts]="this.posts"></app-posts>
+            <app-posts [posts]="this.posts" [forumId]="this.forum?.id!"></app-posts>
         </div>
 
     </div>
