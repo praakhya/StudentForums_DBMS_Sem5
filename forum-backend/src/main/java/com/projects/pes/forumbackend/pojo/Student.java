@@ -22,13 +22,14 @@ public class Student extends User {
          String imgUrl,
          String contact,
          Set<Forum> forums,
+         Section section,
          String rollNo,
          String department,
          UUID classId,
          List<String>memberships,
          List<String> publications,
          List<String> skills) {
-        super(id,username,email,name,password,imgUrl,contact,forums,UserRole.STUDENT);
+        super(id,username,email,name,password,imgUrl,section,contact,forums,UserRole.STUDENT);
         this.rollNo = rollNo;
         this.department = department;
         this.classId = classId;

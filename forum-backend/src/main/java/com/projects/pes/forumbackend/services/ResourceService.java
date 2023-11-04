@@ -36,6 +36,7 @@ public class ResourceService {
     }
     @Transactional
     public Resource updateFile(String username,
+                               String filename,
                                byte[] bytes,
                                String mimeType) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new UserDoesntExist(username));
@@ -46,11 +47,21 @@ public class ResourceService {
         resourceEntity.setContentType(mimeType);
         resourceEntity.setContentData(bytes);
         resourceEntity.setOwnerName(username);
-        System.out.println("Uploading file " + username + " " + mimeType);
+        resourceEntity.setName(filename);
         return resourceMapper.convert(resourceRepository.save(resourceEntity), false);
     }
 
     public Iterable<Resource> getResourcesOfOwner(String username) {
         return  resourceRepository.findByUsername(username).stream().map(r -> resourceMapper.convert(r, false)).collect(Collectors.toList());
     }
+    public Resource deleteFile(UUID resourceId) {
+        ResourceEntity resourceEntity = resourceRepository.findById(resourceId).orElseThrow(() -> new EntityDoesntExist(resourceId.toString(), "resource"));
+        Resource resource = resourceMapper.convert(resourceEntity,false);
+        resourceRepository.delete(resourceEntity);
+        return resource;
+    }
+    public Resource getResourceById(UUID resourceId) {
+        return  resourceMapper.convert(resourceRepository.findById(resourceId).isPresent() ? resourceRepository.findById(resourceId).get():null,true);
+    }
+
 }

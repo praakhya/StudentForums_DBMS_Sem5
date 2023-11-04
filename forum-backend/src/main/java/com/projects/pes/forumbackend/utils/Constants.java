@@ -10,6 +10,8 @@ public class Constants {
         public static final String HELLO_PATH = BASE_PATH + "/hello";
         public static final String USER_PATH = BASE_PATH + "/user";
         public static final String AUTH_PATH = BASE_PATH + "/auth";
+        public static final String SECTION_PATH = BASE_PATH + "/section";
+        public static final String SECTION_ID_PATH = "{id}";
 
         public static final String RESOURCE_PATH = BASE_PATH + "/resource";
         public static final String USER_GET_ONE_PATH = BASE_PATH + "/user/{userid}";
@@ -19,7 +21,8 @@ public class Constants {
         public static final String FACULTY_GET_ONE_PATH = "{username}";
         public static final String IMAGE_UPLOAD_PATH = "/image/{username}";
         public static final String RESOURCE_UPLOAD_PATH = "/file";
-        public static final String RESOURCE_GET_PATH = "/file/{id}";
+        public static final String RESOURCE_GET_PATH = "/file/{id}/{filename}";
+        public static final String RESOURCE_FOR_ID_PATH = "/{id}";
         public static final String RESOURCE_OF_USER_GET_PATH = "/user/{username}";
 
         public static final String FORUM_PATH = BASE_PATH + "/forum";
@@ -32,5 +35,6 @@ public class Constants {
         public static final String GET_ALL_FORUM_USERS_PATH = "/forum/{forumId}/users";
 
         public static final String DUMMY_PROFILE_PICTURE = "/content/dummypp.png";
+        public static final String SECTION_FROM_USERNAME = "/user/{username}";
     }
 }

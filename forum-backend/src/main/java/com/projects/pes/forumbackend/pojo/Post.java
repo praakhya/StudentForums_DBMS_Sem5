@@ -20,6 +20,6 @@ public record Post(
          String posterImgUrl,
          UUID parentId,
          List<Post> posts,
-         List<Resource> resources
+         List<UUID> resourceIds
 ) {
 }

@@ -4,9 +4,11 @@ import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PostEntity;
 import com.projects.pes.forumbackend.entities.ResourceEntity;
 import com.projects.pes.forumbackend.entities.UserEntity;
+import com.projects.pes.forumbackend.exceptions.EntityDoesntExist;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Post;
 import com.projects.pes.forumbackend.pojo.Resource;
+import com.projects.pes.forumbackend.repositories.ResourceRepository;
 import com.projects.pes.forumbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class PostMapper {
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private ResourceRepository resourceRepository;
     public PostEntity convert(Post post) {
         PostEntity postEntity = new PostEntity();
         postEntity.setId(post.id());
@@ -28,6 +32,7 @@ public class PostMapper {
         postEntity.setContent(post.content());
         postEntity.setPosterId(post.posterId());
         postEntity.setParentId(post.parentId());
+        postEntity.setResources(post.resourceIds().stream().map(r -> resourceRepository.findById(r).orElseThrow(()->new EntityDoesntExist(r.toString(), "resource"))).collect(Collectors.toList()));
         return postEntity;
     }
 
@@ -43,6 +48,6 @@ public class PostMapper {
                 userEntity.getPicture().getUrl(),
                 postEntity.getParentId(),
                 postEntity.getPosts() == null ? new ArrayList<>() : postEntity.getPosts().stream().map(p -> convert(p, userRepository)).collect(Collectors.toList()),
-                postEntity.getResources() == null ? new ArrayList<>() : postEntity.getResources().stream().map(r -> resourceMapper.convert(r, false)).collect(Collectors.toList()));
+                postEntity.getResources() == null ? new ArrayList<>() : postEntity.getResources().stream().map(ResourceEntity::getId).collect(Collectors.toList()));
     }
 }

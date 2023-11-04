@@ -13,6 +13,11 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
 logging:
   level:
     org:
@@ -26,6 +31,8 @@ logging:
 #      springframework: DEBUG
 
 # checking health and metrics of metrics
+# spring.servlet.multipart.max-file-size=50MB
+#spring.servlet.multipart.max-request-size=50MB
 management:
   info:
     java:

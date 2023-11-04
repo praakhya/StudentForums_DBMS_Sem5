@@ -3,18 +3,27 @@ package com.projects.pes.forumbackend.mappers;
 import com.projects.pes.forumbackend.entities.FacultyEntity;
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
+import com.projects.pes.forumbackend.entities.SectionEntity;
 import com.projects.pes.forumbackend.pojo.Faculty;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.UserRole;
+import com.projects.pes.forumbackend.repositories.SectionRepository;
 import com.projects.pes.forumbackend.utils.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class FacultyMapper {
+
+    @Autowired
+    private SectionMapper sectionMapper;
+    @Autowired
+    private SectionRepository sectionRepository;
 
     public FacultyEntity convert(Faculty faculty) {
         FacultyEntity facultyEntity = new FacultyEntity();
@@ -40,6 +49,14 @@ public class FacultyMapper {
             imageData = pictureEntity.getImageData();
             mimeType = pictureEntity.getMimeType();
         }
+
+        SectionEntity sectionEntity = null;
+        try {
+            sectionEntity = sectionRepository.findByUsername(facultyEntity.getUsername()).orElseThrow();
+        }
+        catch(Exception e) {
+
+        }
         return new Faculty(facultyEntity.getId(),
                 facultyEntity.getUsername(),
                 facultyEntity.getEmail(),
@@ -47,7 +64,8 @@ public class FacultyMapper {
                 facultyEntity.getPassword(),
                 facultyEntity.getPicture().getUrl(),
                 facultyEntity.getContact(),
-                facultyEntity.getForums() == null ? new HashSet<>() : facultyEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
+                facultyEntity.getForums() == null ? new HashSet<>() : facultyEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null, f.getSection() == null ? null : f.getSection().getId())).collect(Collectors.toSet()),
+                sectionMapper.convert(sectionEntity),
                 facultyEntity.getJobTitle(),
                 facultyEntity.getDepartment(),
                 facultyEntity.getDomains(),

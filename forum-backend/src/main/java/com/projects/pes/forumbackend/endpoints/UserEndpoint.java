@@ -1,10 +1,12 @@
 package com.projects.pes.forumbackend.endpoints;
 
+import com.projects.pes.forumbackend.entities.SectionEntity;
+import com.projects.pes.forumbackend.entities.UserEntity;
 import com.projects.pes.forumbackend.exceptions.FileParsingFailed;
-import com.projects.pes.forumbackend.pojo.Forum;
-import com.projects.pes.forumbackend.pojo.ProfileImage;
-import com.projects.pes.forumbackend.pojo.Student;
-import com.projects.pes.forumbackend.pojo.User;
+import com.projects.pes.forumbackend.mappers.SectionMapper;
+import com.projects.pes.forumbackend.pojo.*;
+import com.projects.pes.forumbackend.repositories.SectionRepository;
+import com.projects.pes.forumbackend.repositories.UserRepository;
 import com.projects.pes.forumbackend.services.StudentService;
 import com.projects.pes.forumbackend.services.UserService;
 import com.projects.pes.forumbackend.utils.Constants;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +27,11 @@ import java.util.Optional;
 public class UserEndpoint {
     @Autowired
     private UserService userService;
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Autowired
+    private SectionMapper sectionMapper;
+    @Autowired
+    private UserRepository userRepository;
+        @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<User> getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return Optional.of(userService.getUser(username));

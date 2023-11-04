@@ -18,8 +18,9 @@ public class ResourceMapper {
                 resourceEntity.getDateOfPublish(),
                 resourceEntity.getContentType(),
                 addContent ? resourceEntity.getContentData() : null,
-                Constants.BASE_PATH+Constants.Paths.RESOURCE_GET_PATH.replace("{id}",resourceEntity.getId().toString())
-        );
+                Constants.Paths.RESOURCE_PATH
+                        + Constants.Paths.RESOURCE_GET_PATH.replace("{id}",resourceEntity.getId().toString())
+                        .replace("{filename}",resourceEntity.getName() == null ? "file" : resourceEntity.getName()));
     }
 
 }

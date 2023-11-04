@@ -15,6 +15,7 @@ public record Forum(
          String name,
          Set<Post> posts,
          Set<Resource> resources,
-         Set<UserInAForum> users
+         Set<UserInAForum> users,
+         UUID sectionId
 ) {
 }

@@ -22,7 +22,7 @@ public class ResourceEntity {
     @Column(name = "contentData", columnDefinition="LONGBLOB")
     private byte[] contentData;
     private String ownerName;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private Set<PostEntity> posts;
     @ManyToMany
     private Set<ForumEntity> forums;

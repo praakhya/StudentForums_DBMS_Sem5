@@ -8,6 +8,7 @@ import com.projects.pes.forumbackend.entities.UserEntity;
 import com.projects.pes.forumbackend.exceptions.EntityDoesntExist;
 import com.projects.pes.forumbackend.exceptions.UserDoesntExist;
 import com.projects.pes.forumbackend.mappers.ForumMapper;
+import com.projects.pes.forumbackend.mappers.SectionMapper;
 import com.projects.pes.forumbackend.mappers.UserMapper;
 import com.projects.pes.forumbackend.pojo.*;
 import com.projects.pes.forumbackend.repositories.UserRepository;
@@ -32,11 +33,13 @@ public class UserService {
     private ForumMapper forumMapper;
     @Autowired
     private ServletContext servletContext;
+    @Autowired
+    private SectionMapper sectionMapper;
 
     public Iterable<User> getUsers() {
         List<User> userList = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(
-                e->userList.add(userMapper.convert(e))
+                e->userList.add(userMapper.convert(e,sectionMapper))
         );
         return userList;
     }
@@ -45,13 +48,13 @@ public class UserService {
                 .findByUsername(username)
                 .orElseThrow(() -> {
                     throw new UserDoesntExist(username);
-                })
+                }), sectionMapper
         );
     }
     @Transactional
     public User save(User user) {
         return userMapper.convert(
-                userRepository.save(userMapper.convert(user))
+                userRepository.save(userMapper.convert(user)), sectionMapper
         );
     }
     @Transactional
@@ -60,7 +63,7 @@ public class UserService {
         if (optionalUserEntity.isPresent()) {
             UserEntity entity = optionalUserEntity.get();
             userRepository.delete(entity);
-            return userMapper.convert(entity);
+            return userMapper.convert(entity, sectionMapper);
         }
         throw new UserDoesntExist(username);
     }
@@ -74,7 +77,7 @@ public class UserService {
             PictureEntity picture = new PictureEntity(bytes, mimeType, Constants.Paths.USER_PATH + Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}",username));
             entity.setPicture(picture);
             entity = userRepository.save(entity);
-            userMapper.convert(entity);
+            userMapper.convert(entity, sectionMapper);
             return new ProfileImage(username,
                     Constants.Paths.FACULTY_PATH+Constants.Paths.IMAGE_UPLOAD_PATH.replace("{username}", username),
                     entity.getPicture().getMimeType(),

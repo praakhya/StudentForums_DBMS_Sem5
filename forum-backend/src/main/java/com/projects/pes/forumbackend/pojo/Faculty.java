@@ -22,12 +22,13 @@ public class Faculty extends User {
                 String imgUrl,
                 String contact,
                 Set<Forum> forums,
+                Section section,
                 String jobTitle,
                 String department,
                 List<String>domains,
                 List<String> publications
         ) {
-            super(id,username,email,name,password,imgUrl,contact,forums,UserRole.FACULTY);
+            super(id,username,email,name,password,imgUrl,section,contact,forums,UserRole.FACULTY);
             this.jobTitle = jobTitle;
             this.department = department;
             this.domains = domains;

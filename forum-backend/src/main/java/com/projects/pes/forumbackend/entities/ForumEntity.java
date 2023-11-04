@@ -24,4 +24,6 @@ public class ForumEntity {
     private Set<ResourceEntity> resources;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "forums")
     private List<UserEntity> users;
+    @OneToOne
+    private SectionEntity section;
 }

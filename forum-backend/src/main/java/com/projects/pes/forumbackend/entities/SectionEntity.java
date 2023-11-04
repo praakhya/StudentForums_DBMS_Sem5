@@ -1,18 +1,21 @@
 package com.projects.pes.forumbackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.UUID;
 
 @Entity
+@Data
 @Table(name = "sections")
 public class SectionEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID classRepID;
-    private UUID classTeacherID;
+    @OneToOne
+    private StudentEntity classRep;
+    @OneToOne
+    private FacultyEntity classTeacher;
     private String name;
 }
 

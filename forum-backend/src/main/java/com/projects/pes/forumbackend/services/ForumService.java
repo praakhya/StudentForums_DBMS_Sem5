@@ -83,7 +83,7 @@ public class ForumService {
     public Post createPostInForum(UUID forumId, Post jsonPost) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
-        Post post = new Post(null, jsonPost.type(), jsonPost.title(), jsonPost.content(), userEntity.getId(), userEntity.getUsername(), userEntity.getPicture().getUrl(), jsonPost.parentId(), jsonPost.posts(), jsonPost.resources());
+        Post post = new Post(null, jsonPost.type(), jsonPost.title(), jsonPost.content(), userEntity.getId(), userEntity.getUsername(), userEntity.getPicture().getUrl(), jsonPost.parentId(), jsonPost.posts(), jsonPost.resourceIds());
         Optional<ForumEntity>optionalForumEntity = forumRepository.findById(forumId);
         if (optionalForumEntity.isPresent()) {
             PostEntity postEntity = postMapper.convert(post);

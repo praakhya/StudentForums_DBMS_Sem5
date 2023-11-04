@@ -21,6 +21,10 @@ public class PostEntity {
     private UUID parentId;
     @OneToMany(cascade = CascadeType.ALL)
     private List<PostEntity> posts;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "posts_resources",
+            joinColumns = @JoinColumn(name = "resource_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<ResourceEntity> resources;
 }

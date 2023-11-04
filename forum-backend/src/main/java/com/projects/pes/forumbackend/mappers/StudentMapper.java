@@ -2,11 +2,14 @@ package com.projects.pes.forumbackend.mappers;
 
 import com.projects.pes.forumbackend.entities.ForumEntity;
 import com.projects.pes.forumbackend.entities.PictureEntity;
+import com.projects.pes.forumbackend.entities.SectionEntity;
 import com.projects.pes.forumbackend.entities.StudentEntity;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.pojo.UserRole;
+import com.projects.pes.forumbackend.repositories.SectionRepository;
 import com.projects.pes.forumbackend.utils.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -17,6 +20,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentMapper {
+    @Autowired
+    private SectionMapper sectionMapper;
+    @Autowired
+    private SectionRepository sectionRepository;
+
     public StudentEntity convert(Student student) {
         StudentEntity studentEntity = new StudentEntity();
         studentEntity.setUsername(student.getUsername());
@@ -42,6 +50,13 @@ public class StudentMapper {
             imageData = pictureEntity.getImageData();
             mimeType = pictureEntity.getMimeType();
         }
+        SectionEntity sectionEntity = null;
+        try {
+            sectionEntity = sectionRepository.findByUsername(studentEntity.getUsername()).orElseThrow();
+        }
+        catch(Exception e) {
+
+        }
         return new Student(
                 studentEntity.getId(),
                 studentEntity.getUsername(),
@@ -50,7 +65,8 @@ public class StudentMapper {
                 studentEntity.getPassword(),
                 studentEntity.getPicture().getUrl(),
                 studentEntity.getContact(),
-                studentEntity.getForums() == null ? new HashSet<>() : studentEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null)).collect(Collectors.toSet()),
+                studentEntity.getForums() == null ? new HashSet<>() : studentEntity.getForums().stream().map(f->new Forum(f.getId(), null, f.getName(), null, null, null, f.getSection() == null ? null : f.getSection().getId())).collect(Collectors.toSet()),
+                sectionMapper.convert(sectionEntity),
                 studentEntity.getRollNo(),
                 studentEntity.getDepartment(),
                 studentEntity.getClassId(),

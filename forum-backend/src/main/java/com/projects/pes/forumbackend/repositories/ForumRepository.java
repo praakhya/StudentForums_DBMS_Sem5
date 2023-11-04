@@ -1,6 +1,7 @@
 package com.projects.pes.forumbackend.repositories;
 
 import com.projects.pes.forumbackend.entities.ForumEntity;
+import com.projects.pes.forumbackend.entities.SectionEntity;
 import com.projects.pes.forumbackend.pojo.CreateForum;
 import com.projects.pes.forumbackend.pojo.Forum;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,7 @@ import java.util.UUID;
 public interface ForumRepository extends CrudRepository<ForumEntity, UUID> {
     @Query("select f from ForumEntity f where f.name like :name")
     Optional<ForumEntity> findByName(String name);
+
+    @Query("select f from ForumEntity f where f.section like :section")
+    Optional<ForumEntity> findBySection(SectionEntity section);
 }

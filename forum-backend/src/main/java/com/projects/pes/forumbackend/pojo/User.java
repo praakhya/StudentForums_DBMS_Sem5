@@ -18,6 +18,7 @@ public class User{
     private String name;
     private String password;
     private String imgUrl;
+    private Section section;
     private String contact;
     private Set<Forum>forums;
     private UserRole role;
