@@ -30,4 +30,13 @@ text-align:center;
     width: 90vw;
     display: flex;
     gap: 1em;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+}
+.resource {
+    width: 27vw;
+    height: max-content;
 }

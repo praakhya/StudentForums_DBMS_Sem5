@@ -9,6 +9,7 @@ import { ForumsComponent } from './forums/forums.component';
 import { ForumComponent } from './forums/forum/forum.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { ResourcesComponent } from './resources/resources.component';
+import { SectionComponent } from './section/section.component';
 const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   {path: '', component: HomeComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'forums', component: ForumsComponent},
   {path: 'forums/:id', component:ForumComponent},
   {path: 'create-post/:forumId/:userId',component:CreatePostComponent},
-  {path: 'resources', component:ResourcesComponent}
+  {path: 'resources', component:ResourcesComponent},
+  {path: 'section', component:SectionComponent}
 ];
 
 @NgModule({

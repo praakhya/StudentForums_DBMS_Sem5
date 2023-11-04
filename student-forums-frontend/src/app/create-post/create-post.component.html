@@ -19,6 +19,48 @@
         plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
         toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         }" [(ngModel)]="dataModel"></editor>
-
+    <div>
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          </mat-form-field>
+        <mat-table [dataSource]="this.resources" class="mat-elevation-z8" >
+            <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()">
+                  </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+                </mat-cell>
+              </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+              </ng-container>
+            
+              <ng-container matColumnDef="contentType">
+                <mat-header-cell *matHeaderCellDef> Content Type </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.contentType}} </mat-cell>
+              </ng-container>
+            
+              <ng-container matColumnDef="ownerName">
+                <mat-header-cell *matHeaderCellDef> Owner </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.ownerName}} </mat-cell>
+              </ng-container>
+            
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</mat-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selection.toggle(row)"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of resources"></mat-paginator>
+    </div>
 </div>
 <button mat-stroked-button (click)="createPost(title.value,typeRef.value)">Save</button>

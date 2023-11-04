@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '../user';
 import { BehaviorSubject } from 'rxjs';
 import { UIService } from '../ui.service';
+import { Resource } from '../resource';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -15,18 +17,24 @@ export class PostComponent {
   @Input() post: Post|null = null;
   @Input() forumId: string = "";
   @Input() forumSetting: boolean = false;
+  postedResources: Array<Resource> = []
 
-
-  constructor(private authenticationService: AuthenticationService, private uiService:UIService) {};
+  constructor(private authenticationService: AuthenticationService, private uiService:UIService, private router:Router) {};
   ngOnInit() {
     console.log("post",this.post)
     this.uiService.forumSettingMode.subscribe(s => {
       this.forumSetting = s
     })
+    for (var resId of this.post?.resourceIds!) {
+      this.authenticationService.getResource(resId).subscribe(r => {
+        this.postedResources.push(r);
+      })
+    }
+
     
   }
   addPostReply(reply:string) {
-    this.authenticationService.createPost(this.forumId, reply, "Reply ", `Reply to ${this.post?.title}`, this.post?.id!).subscribe(p => {
+    this.authenticationService.createPost(this.forumId, reply, "Reply ", `Reply to ${this.post?.title}`, this.post?.id!,[]).subscribe(p => {
       console.log("post:",p)
       this.authenticationService.reloadPosts(this.forumId)
     })
@@ -45,4 +53,8 @@ export class PostComponent {
       
     })
   }
+  download(url:string) {
+      this.router.navigate([]).then(result => window.open(url, "_blank"));
+  }
+  addToMyFile(file:any, multiPartVar:string) {}
 }

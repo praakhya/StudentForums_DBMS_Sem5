@@ -30,6 +30,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { DialogModule } from '@angular/cdk/dialog';
@@ -46,7 +49,8 @@ import { PostReplyComponent } from './post-reply/post-reply.component';
 import { ReplyToPostComponent } from './reply-to-post/reply-to-post.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { DragDirective } from './dragDrop.directive';
-
+import { ResourceComponent } from './resource/resource.component';
+import { SectionComponent } from './section/section.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +71,9 @@ import { DragDirective } from './dragDrop.directive';
     PostReplyComponent,
     ReplyToPostComponent,
     ResourcesComponent,
-    DragDirective
+    DragDirective,
+    ResourceComponent,
+    SectionComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +100,11 @@ import { DragDirective } from './dragDrop.directive';
     MatSnackBarModule,
     EditorModule,
     DialogModule,
-    MatTreeModule
+    MatTreeModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCheckboxModule
+    
     
   ],
   providers: [],

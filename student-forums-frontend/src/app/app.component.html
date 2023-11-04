@@ -2,10 +2,11 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="true" *ngIf="isLoggedIn()">
     <mat-drawer #drawer mode="push">
         <div class="nav">
-            <a routerLink="profile">Profile</a>
-            <a routerLink="home">Home</a>
-            <a routerLink="forums">Forums</a>
-            <a routerLink="resources">My Resources</a>
+            <a routerLink="profile" (click)="drawer.toggle()">Profile</a>
+            <a routerLink="home" (click)="drawer.toggle()">Home</a>
+            <a routerLink="forums" (click)="drawer.toggle()">Forums</a>
+            <a routerLink="resources" (click)="drawer.toggle()">My Resources</a>
+            <a routerLink="section" (click)="drawer.toggle()">Section</a>
         </div>
     </mat-drawer>
     <mat-drawer-content class="drawer-content">

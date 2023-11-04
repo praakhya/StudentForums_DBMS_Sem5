@@ -1,0 +1,20 @@
+<mat-card-header class="overflowRow" *ngIf="displayType=='tile'">
+    <mat-card-title>
+        {{this.resource.name}}
+    </mat-card-title>
+    <mat-card-subtitle>
+        {{this.resource.id}}
+    </mat-card-subtitle>
+</mat-card-header>
+<mat-list *ngIf="displayType=='tile'">
+    <mat-list-item>Owner: {{this.resource.ownerName}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Published on: {{returnDate(this.resource.dateOfPublish)}}</mat-list-item>
+    <mat-divider></mat-divider>
+</mat-list>
+
+
+    <!-- Position Column -->
+  
+
+  

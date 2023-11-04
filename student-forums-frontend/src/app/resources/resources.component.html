@@ -30,9 +30,18 @@
     </mat-card-actions>
 </mat-card>
 <div class="resource-list">
-    <div *ngFor="let resource of this.resources">
-        <div>{{resource.ownerName}}</div>
-        <div>{{resource.name}}</div>
-    </div>
+    <mat-card *ngFor="let resource of this.resources" class="resource">
+        <app-resource [resource]="resource" [displayType]="'tile'"></app-resource>
+        <mat-card-footer>
+            <mat-action-row>
+                <button mat-icon-button (click)="downloadFile(this.resource.url)">
+                    <mat-icon>download</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteFile(this.resource.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-action-row>
+        </mat-card-footer>
+    </mat-card>
 
 </div>

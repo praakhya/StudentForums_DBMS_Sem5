@@ -10,6 +10,7 @@ import { Faculty } from './faculty';
 import { Post } from './post';
 import { ProfileImage } from './profile-image';
 import { Resource } from './resource';
+import { Section } from './section';
 @Injectable({
   providedIn: 'root'
 })
@@ -155,7 +156,7 @@ export class AuthenticationService {
     console.log("options in user service: ",options)
     return this.httpClient.post<Forum>(url,body,options);
   }
-  createPost(forumId:string, data:string, type:string, title:string, parentId:string|null) {
+  createPost(forumId:string, data:string, type:string, title:string, parentId:string|null, resourceIds:Array<string>) {
     console.log("authorization: ",localStorage.getItem("token")?.toString())
     const httpHeaders = {
       'Content-Type':'application/json; charset=utf-8',
@@ -168,7 +169,8 @@ export class AuthenticationService {
       "type":type,
       "title":title,
       "content":data,
-      "parentId":parentId
+      "parentId":parentId,
+      "resourceIds": resourceIds
     }
     console.log("options in user service: ",options)
     return this.httpClient.post<Post>(`${this.baseUrl}/forum/${forumId}/post`,body,options);
@@ -240,6 +242,52 @@ export class AuthenticationService {
     };
     console.log("options in user service: ",options)
     return this.httpClient.get<Array<Resource>>(path,options);
+  }
+  deleteResource(id:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.delete<Resource>(`${this.baseUrl}/resource/${id}`,options);
+
+  }
+  getResource(id:string) {
+    var user = JSON.parse(localStorage.getItem("user")!) as User; 
+    var path = `${this.baseUrl}/resource/${id}`
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<Resource>(path,options);
+  }
+  isFaculty() {
+    var user = this.user.getValue()
+    return user?.role == "FACULTY"
+  }
+  createSection(name:string, repUsername:string, teachUsername:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    let body = {
+      "name":name,
+      "classRepUsername":repUsername,
+      "classTeacherUsername":teachUsername,
+    }
+    console.log("options in create section service: ",options, body)
+    return this.httpClient.post<Section>(`${this.baseUrl}/section`,body,options);
   }
 
   

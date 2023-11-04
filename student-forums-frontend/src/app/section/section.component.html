@@ -1,0 +1,61 @@
+<mat-card *ngIf = "this.user?.section != null" class="body">
+    <mat-card-header>
+        <mat-card-title>
+            <h1>Your Section
+            </h1>
+            </mat-card-title>
+    </mat-card-header>
+    <mat-card-subtitle>View section details below</mat-card-subtitle>
+    <mat-list>
+        <mat-list-item>Name: {{this.user?.section?.name}}</mat-list-item>
+        <mat-list-item>Class Teacher: {{this.user?.section?.classTeacherUsername}}</mat-list-item>
+        <mat-list-item>Class Student Representative: {{this.user?.section?.classRepUsername}}</mat-list-item>
+    </mat-list>
+</mat-card>
+
+<div *ngIf = "this.user?.section == null" class="body">
+    <mat-card class="content">
+        <mat-card-header>
+            <mat-card-title>
+                <h1>
+                Your Section
+            </h1>
+            </mat-card-title>
+            <mat-card-subtitle>
+                You have not added a section
+            </mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+    <div class="adding">
+        <h1>
+            Add a Section
+        </h1>
+        <div class="entry">
+            <mat-label>Semester</mat-label>
+            <mat-select #selectedSemester class="select">
+                <mat-option *ngFor="let sem of semesters" [value]="sem">
+                    {{sem}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="entry">
+            <mat-label>Section</mat-label>
+            <mat-select #selectedSection class="select">
+                <mat-option *ngFor="let sec of sections" [value]="sec">
+                    {{sec}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="entry">
+            <mat-label>Class Representative Username</mat-label>
+            <input type="text" #repUsername>
+        </div>
+        <div class="entry">
+            <mat-label>Class Teacher Username</mat-label>
+            <input type="text" value="{{this.user!.username}}" disabled="true" #teacherUsername>
+        </div>
+        <br>
+        <button mat-stroked-button (click)="addSection(selectedSemester.value, 
+        selectedSection.value, repUsername.value, teacherUsername.value)">Add Section +</button>
+    </div>
+</div>

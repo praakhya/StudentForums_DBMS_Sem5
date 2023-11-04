@@ -1,4 +1,5 @@
 import { Forum } from "./forum";
+import { Section } from "./section";
 
 export class User {
     id:string;
@@ -10,6 +11,7 @@ export class User {
     role:string|null = null;
     contact:string|null = null;
     forums: Array<Forum>;
+    section: Section|null = null;
     constructor(id:string, username:string, password:string, email:string,name:string) {
         this.id = id;
         this.username=username;

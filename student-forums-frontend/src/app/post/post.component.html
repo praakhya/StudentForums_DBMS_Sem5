@@ -18,6 +18,16 @@
             {{this.post?.content}}
         </p>
     </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-list *ngFor="let resource of this.postedResources">
+        <mat-list-item>
+            <span>{{resource.name}}</span>
+            <button mat-icon-button (click)="download(resource.url)">
+                <mat-icon>download</mat-icon>
+            </button>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
     <mat-card-actions>
         <span style="display: flex; flex-grow:1">Reply</span>
         <div style="display: flex; flex-grow:2">
