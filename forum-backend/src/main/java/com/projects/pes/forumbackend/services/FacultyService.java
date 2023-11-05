@@ -44,8 +44,10 @@ public class FacultyService {
         if (facultyEntity.getContact() == null || (faculty.getContact()!=null && !facultyEntity.getContact().equals(faculty.getContact()))) {
             facultyEntity.setContact(faculty.getContact());
         }
-            facultyEntity.setDomains(faculty.getDomains());
-            facultyEntity.setPublications(faculty.getPublications());
+
+        facultyEntity.setDomains(faculty.getDomains());
+        facultyEntity.setPublications(faculty.getPublications());
+        facultyEntity = facultyRepository.save(facultyEntity);
         return facultyMapper.convert(facultyEntity);
     }
     public Faculty getFaculty(String username) {

@@ -25,7 +25,7 @@ public class PostEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "posts_resources",
-            joinColumns = @JoinColumn(name = "resource_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id"))
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id"))
     private List<ResourceEntity> resources;
 }

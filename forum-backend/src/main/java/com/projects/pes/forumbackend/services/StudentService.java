@@ -53,11 +53,13 @@ public class StudentService {
             studentEntity.setName(student.getName());
         }
         if (studentEntity.getContact() == null || (student.getContact()!=null && !studentEntity.getContact().equals(student.getContact()))) {
+            System.out.println("In if: " + studentEntity.getContact()+" "+student.getContact());
             studentEntity.setContact(student.getContact());
         }
-            studentEntity.setMemberships(student.getMemberships());
-            studentEntity.setPublications(student.getPublications());
-            studentEntity.setSkills(student.getSkills());
+        studentEntity.setMemberships(student.getMemberships());
+        studentEntity.setPublications(student.getPublications());
+        studentEntity.setSkills(student.getSkills());
+        studentEntity = studentRepository.save(studentEntity);
         return studentMapper.convert(studentEntity);
     }
     @Transactional
