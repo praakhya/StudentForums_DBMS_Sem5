@@ -1,22 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { User } from '../user';
 import { Forum } from '../forum';
-import { catchError, of, Observable } from 'rxjs';
+import { catchError, of, Observable, BehaviorSubject } from 'rxjs';
 import { Faculty } from '../faculty';
 import { Student } from '../student';
 import { Router } from '@angular/router';
+import { ElementRef } from '@angular/core';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
-  error:String;
+  facultyError: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  studentError: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  passwordError: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  
+
+  error: String;
   role?: string;
-  rollNo: string = "";
-  jobTitle: string = "";
-  departments:string[] =  [
+  departments: string[] = [
     "Computer Science and Engineering",
     "Electronics and Communication Engineering",
     "Electrical and Electronics Engineering",
@@ -24,41 +28,58 @@ export class SignupComponent {
     "Mechanical Engineering",
     "Civil Engineering"
   ];
-  constructor(private authenticationService:AuthenticationService, private router:Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
     this.error = "";
-    
+
   }
-  signup(username:string, email:string, name:string, password:string, confirmPassword:string, role:string, department:string, rollNo:string, jobTitle:string) {
-    if (password==confirmPassword) {
+
+
+  signup(username: string, email: string, name: string, password: string, confirmPassword: string, role: string, department: string, rollNo: string, jobTitle: string) {
+    if ((password == confirmPassword) && (username && email && name && password && confirmPassword)) {
       var user = null;
-      if (role=="faculty") {
-        user = new Faculty(null, username, password, email, name, null, jobTitle, department, [], [], null);
-        this.authenticationService.postFaculty(user!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
-          console.error('Session Time Out', error);
-          localStorage.clear();
-          return of();
-        })).subscribe(res => {
-          console.log(res);
-          alert("User successfully signed up. Log in to continue")
-          this.router.navigate([""])
-        })
+      this.passwordError.next(false)
+      if (role == "faculty") {
+        if (department && jobTitle) {
+          this.facultyError.next(false)
+          user = new Faculty(null, username, password, email, name, null, jobTitle, department, [], [], null);
+          console.log("faculty in signup: ", user)
+          this.authenticationService.postFaculty(user!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
+            console.error('Session Time Out', error);
+            localStorage.clear();
+            return of();
+          })).subscribe(res => {
+            console.log(res);
+            alert("User successfully signed up. Log in to continue")
+            this.router.navigate([""])
+          })
+        }
+        else {
+          this.facultyError.next(true)
+        }
       }
       else {
-        user = new Student(null, username, password, email, name, null, null, rollNo, department, null, [], [], []);
-        this.authenticationService.postStudent(user!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
-          console.error('Session Time Out', error);
-          localStorage.clear();
-          return of();
-        })).subscribe(res => {
-          console.log(res);
-          
-          alert(res)
-        })
+        if (rollNo && department) {
+          this.studentError.next(false)
+          user = new Student(null, username, password, email, name, null, null, rollNo, department, null, [], [], []);
+          console.log("student in signup: ", user)
+          this.authenticationService.postStudent(user!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
+            console.error('Session Time Out', error);
+            localStorage.clear();
+            return of();
+          })).subscribe(res => {
+            console.log(res);
+
+            alert(res)
+          })
+        }
+        else {
+          this.studentError.next(true)
+        }
       }
-      
+
     }
     else {
-      this.error="Passwords do not match";
+      this.passwordError.next(true)
     }
 
 

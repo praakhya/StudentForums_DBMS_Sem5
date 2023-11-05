@@ -46,6 +46,30 @@ export class AuthenticationService {
   public postStudent(student: Student): Observable<Student> {
     return this.httpClient.post<Student>(this.baseUrl + "/student", student);
   }
+  public getStudent(studentUsername: string): Observable<Student> {
+    var path = `${this.baseUrl}/student/${studentUsername}`
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in get student service: ",options)
+    return this.httpClient.get<Student>(path, options);
+  }
+  public getFaculty(facultyUsername:string): Observable<Faculty> {
+    var path = `${this.baseUrl}/faculty/${facultyUsername}`
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in get faculty service: ",options)
+    return this.httpClient.get<Faculty>(path, options);
+  }
   public postFaculty(faculty: Faculty): Observable<Faculty> {
     return this.httpClient.post<Faculty>(this.baseUrl + "/faculty", faculty);
   }
@@ -57,7 +81,7 @@ export class AuthenticationService {
       return of();
     })).subscribe(u => {
       var user = u;
-      console.log(u)
+      console.log("in set session:",u)
       localStorage.setItem("user", JSON.stringify(user));
       this.user.next(u)
       console.log("user in auth:",this.user.getValue())
@@ -341,7 +365,32 @@ export class AuthenticationService {
     console.log("options in user service: ",options)
     return this.httpClient.delete(path,options);
   }
+  updateStudentProfile(student:Student) {
+    var path = `${this.baseUrl}/student`
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in update student service: ",options)
+    return this.httpClient.patch<Student>(path,student,options);
 
+  }
+  updateFacultyProfile(faculty:Faculty) {
+    var path = `${this.baseUrl}/faculty`
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in update faculty service: ",options)
+    return this.httpClient.patch<Faculty>(path,faculty,options);
+
+  }
 
   
 }

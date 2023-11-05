@@ -5,6 +5,8 @@ import { User } from '../user';
 import { catchError, of, Observable } from 'rxjs';
 import { Notification } from '../notification';
 import { DatePipe } from '@angular/common';
+
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -32,12 +34,6 @@ export class DashboardComponent {
     this.authenticationService.logout()
     this.router.navigate([""])
 
-  }
-  returnDate(dateString:Date) {
-    console.log(dateString)
-    var date = this.datePipe.transform(dateString, 'dd/MM/yyyy')
-    var time = this.datePipe.transform(dateString, "hh:mm")
-    return date+" "+time
   }
 
 }

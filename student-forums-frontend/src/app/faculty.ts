@@ -23,6 +23,9 @@ export class Faculty extends User {
         this.department = department;
         this.domains = domains;
         this.publications = publications;
+        this.imgUrl = imgUrl;
+        this.contact = contact;
+    
     }
 
     

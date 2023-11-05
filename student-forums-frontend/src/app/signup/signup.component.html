@@ -5,7 +5,9 @@
             </div>
             <mat-card-content class="signup-inputs">
 
-                <div>{{this.error}}</div>
+                <mat-chip *ngIf="this.passwordError.getValue() == true">Passwords do not match</mat-chip>
+                <mat-chip *ngIf="this.studentError.getValue() == true">Student Information not filled</mat-chip>
+                <mat-chip *ngIf="this.facultyError.getValue() == true">Faculty Information not filled</mat-chip>
                 <input placeholder="Username" class="input" #username>
                 <input type="email" placeholder="E-Mail" class="input" #email>
                 <input placeholder="Name" class="input" #name>
@@ -24,8 +26,8 @@
             </mat-button-toggle-group>
             <mat-card-content class="signup-inputs">
                 <div class="heading">{{group.value.charAt(0).toUpperCase() + group.value.slice(1)}} Details</div>
-                    <input placeholder="Roll Number" *ngIf="group.value=='student'" class="input" [value]="rollNo">
-                    <input placeholder="Job Title" *ngIf="group.value=='faculty'" class="input" [value]="jobTitle">
+                    <input #rollNo placeholder="Roll Number" [hidden]="group.value=='faculty'" class="input" >
+                    <input #jobTitle placeholder="Job Title" [hidden]="group.value=='student'" class="input" >
                 <div>
                     <mat-label>Department</mat-label>
                     <mat-select #selectedDept>
@@ -36,7 +38,7 @@
                 </div>
                 <mat-card-actions class="signup-actions">
                     <button mat-stroked-button
-                        (click)="signup(username.value, email.value, name.value, password.value, confirmPassword.value, group.value, selectedDept.value, this.rollNo, this.jobTitle)">Sign
+                        (click)="signup(username.value, email.value, name.value, password.value, confirmPassword.value, group.value, selectedDept.value, rollNo.value, jobTitle.value)">Sign
                         up</button>
                 </mat-card-actions>
             </mat-card-content>

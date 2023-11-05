@@ -32,7 +32,7 @@
                         <button mat-icon-button *ngIf="this.currentForumSetting && user.id!=this.loggedInUser?.id && user.id!=this.forum?.admin?.id" (click)="deleteUser(user.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <img src="{{user.url}}" class="userAvatar" matListItemAvatar *ngIf="!this.currentForumSetting || user.id==this.loggedInUser?.id || user.id==this.forum?.admin?.id"/>
+                        <img src="{{user.imgUrl}}" class="userAvatar" matListItemAvatar *ngIf="!this.currentForumSetting || user.id==this.loggedInUser?.id || user.id==this.forum?.admin?.id"/>
                         <span class="mdc-image-list__label">{{user.username}}</span>
                         <mat-divider></mat-divider>
                     </mat-list-item>

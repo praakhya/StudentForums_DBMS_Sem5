@@ -1,15 +1,15 @@
 <div class="full-screen horizontal-center" *ngIf="this.user">
-    <div class="card two-column profile-card" *ngIf="isLoggedIn()">
+    <div class="card two-column profile-card" *ngIf="isLoggedIn() && !this.editMode">
         <div class="column profile-column">
-            <div class="circle profile"><img src={{this.user.imgUrl}} class="profile-image"/></div>
+            <div class="circle profile"><img src={{this.user.imgUrl}} class="profile-image" /></div>
             <p>{{this.user.username}}</p>
             <div class="upload-btn-wrapper">
                 <button mat-stroked-button disabled style="border-color: black; color:black">
                     <span>Edit Profile Picture</span>
                     <mat-icon fontIcon="edit"></mat-icon>
                 </button>
-                <input type="file" name="myfile" (change)="uploadFile($event)"/>
-              </div>
+                <input type="file" name="myfile" (change)="uploadFile($event)" />
+            </div>
         </div>
         <mat-card class="column">
             <h1>User Information</h1>
@@ -51,12 +51,245 @@
                     </span>
                 </div>
             </mat-card-content>
+            <mat-action-row>
+                <button mat-icon-button (click)="enableEdit()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-action-row>
             <!--<h1>{{this.profileType}} Information</h1>
             <app-student-profile *ngIf="this.profileType=='Student'"></app-student-profile>
             <app-faculty-profile *ngIf="this.profileType=='Faculty'"></app-faculty-profile>-->
         </mat-card>
     </div>
-    <div class="card two-column profile-card" *ngIf="!isLoggedIn()">
-        Log in to view your profile
+    <div class="card two-column profile-card" *ngIf="isLoggedIn() && this.user && this.editMode">
+        <div class="column profile-column">
+            <div class="circle profile"><img src={{this.user.imgUrl}} class="profile-image" /></div>
+            <p>{{this.user.username}}</p>
+            <div class="upload-btn-wrapper">
+                <button mat-stroked-button disabled style="border-color: black; color:black">
+                    <span>Edit Profile Picture</span>
+                    <mat-icon fontIcon="edit"></mat-icon>
+                </button>
+                <input type="file" name="myfile" (change)="uploadFile($event)"/>
+            </div>
+        </div>
+        <mat-card class="column">
+            <h1>User Information</h1>
+            <mat-card-content class="details">
+                <div class="detail">
+                    <span>
+                        Username
+                    </span>
+                    <br>
+                    <span>
+                        {{this.user.username}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        E-Mail
+                    </span>
+                    <br>
+                    <input type="text" value="{{this.user.email}}" #email/>
+                </div>
+                <div>
+                    <span>
+                        Full Name
+                    </span>
+                    <br>
+                    <span>
+                        <input type="text" value="{{this.user.name}}" #fullname/>
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        Contact Number
+                    </span>
+                    <br>
+                    <input type="text" value="{{this.user.contact}}" #contact>
+                </div>
+            </mat-card-content>
+            <mat-action-row>
+                <button mat-icon-button (click)="disableEdit(email.value, fullname.value, contact.value)">
+                    <mat-icon>done</mat-icon>
+                </button>
+            </mat-action-row>
+            <!--<h1>{{this.profileType}} Information</h1>
+                <app-student-profile *ngIf="this.profileType=='Student'"></app-student-profile>
+                <app-faculty-profile *ngIf="this.profileType=='Faculty'"></app-faculty-profile>-->
+        </mat-card>
     </div>
+    <div class="card two-column profile-card" *ngIf="isLoggedIn() && !this.editMode">
+        <mat-card class="column">
+            <mat-card-header>
+                <mat-card-title>
+                    <h1>{{this.user.role}} Information</h1>
+                </mat-card-title>
+            </mat-card-header>
+            <div *ngIf="isStudent()">
+                <div>Roll Number: {{this.studentUser?.rollNo}}</div>
+                <div>Department: {{this.studentUser?.department}}</div>
+                <div *ngIf="this.studentUser?.memberships?.length! > 0">
+                    <span>Memberships</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let mem of this.studentUser?.memberships">
+                            {{mem}}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="this.studentUser?.publications?.length! > 0">
+                    <span>Publications</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let pub of this.studentUser?.publications">
+                            {{pub}}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="this.studentUser?.skills?.length! > 0">
+                    <span>Skills</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let skill of this.studentUser?.skills">
+                            {{skill}}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
+            <div *ngIf="isFaculty()">
+                <p>Department: {{this.facultyUser?.department}}</p>
+                <p>Job Title: {{this.facultyUser?.jobTitle}}</p>
+                <div>
+                    <span>Domains</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let domain of this.facultyUser?.domains">
+                            {{domain}}
+                        </mat-list-item>
+                    </mat-list>
+                    <mat-divider></mat-divider>
+                </div>
+                <div>
+                    <span>Publications</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let pub of this.facultyUser?.publications">
+                            {{pub}}
+                        </mat-list-item>
+                    </mat-list>
+                    <mat-divider></mat-divider>
+                </div>
+        </div>
+        </mat-card>
+    </div>
+    <div class="card two-column profile-card" *ngIf="isLoggedIn() && this.editMode">
+        <mat-card class="column">
+            <mat-card-header>
+                <mat-card-title>
+                    <h1>{{this.user.role}} Information</h1>
+                </mat-card-title>
+            </mat-card-header>
+            <div *ngIf="isStudent()">
+                <div>Roll Number: {{this.studentUser?.rollNo}}</div>
+                <p>Department: {{this.studentUser?.department}}</p>
+                <div>
+                    <span>Memberships</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let mem of this.inputMemberships">
+                            {{mem}}
+                            <button mat-icon-button (click)="deleteFromMembership(mem)">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </mat-list-item>
+                    </mat-list>
+                    <div class="input-row">
+                        <label>Add a Membership: </label>
+                        <input type="text" #membership>
+                        <button mat-icon-button (click)="addToList(membership.value, this.inputMemberships)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+                <div>
+                    <span>Publications</span>
+                    <mat-list>
+                        <mat-list-item *ngFor="let pub of this.inputPublications">
+                            {{pub}}
+                            <button mat-icon-button (click)="deleteFromPublication(pub)">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </mat-list-item>
+                    </mat-list>
+                    <div class="input-row">
+                        <label>Add a Publication: </label>
+                        <input type="text" #studentPublication>
+                        <button mat-icon-button (click)="addToList(studentPublication.value, this.inputPublications)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+                <div>
+                    <span>Skills</span>
+                    <mat-chip-listbox>
+                        <mat-chip *ngFor="let skill of this.inputSkills">
+                            {{skill}}
+                            <button mat-icon-button (click)="deleteFromSkills(skill)">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </mat-chip-listbox>
+                    <div class="input-row">
+                        <label>Add a Skill: </label>
+                        <input type="text" #skills>
+                        <button mat-icon-button (click)="addToList(skills.value, this.inputSkills)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+                </div>
+                <div *ngIf="isFaculty()">
+                    <p>Department: {{this.facultyUser?.department}}</p>
+                    <p>Job Title: {{this.facultyUser?.jobTitle}}</p>
+                    <div>
+                        <span>Domains</span>
+                        <mat-list>
+                            <mat-list-item *ngFor="let domain of this.inputDomains">
+                                {{domain}}
+                                <button mat-icon-button (click)="deleteFromDomains(domain)">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-list>
+                        <div class="input-row">
+                            <label>Add a Domain: </label>
+                            <input type="text" #domain>
+                            <button mat-icon-button (click)="addToList(domain.value, this.inputDomains)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div>
+                        <span>Publications</span>
+                        <mat-list>
+                            <mat-list-item *ngFor="let pub of this.inputPublications">
+                                {{pub}}
+                                <button mat-icon-button (click)="deleteFromPublication(pub)">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-list>
+                        <div class="input-row">
+                            <label>Add a Publication: </label>
+                            <input type="text" #facultyPublication>
+                            <button mat-icon-button (click)="addToList(facultyPublication.value, this.inputPublications)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                        <mat-divider></mat-divider>
+                    </div>
+
+            </div>
+        </mat-card>
+    </div>
+
 </div>

@@ -6,6 +6,7 @@ export class Student extends User{
     memberships: Array<string>
     publications: Array<string>
     skills: Array<string>
+    rollNo: string = ""
     constructor(
         id:string|null,
         username:string,
@@ -27,5 +28,8 @@ export class Student extends User{
         this.memberships = memberships;
         this.publications = publications;
         this.skills = skills;
+        this.imgUrl = imgUrl;
+        this.contact = contact;
+        this.rollNo = rollNo;
     }
 }
