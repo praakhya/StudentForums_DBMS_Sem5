@@ -1,19 +1,25 @@
 <mat-card *ngIf = "this.user?.section != null" class="body">
     <mat-card-header>
         <mat-card-title>
-            <h1>Your Section
+            <h1>
+                Your Section
             </h1>
             </mat-card-title>
+            <mat-card-subtitle>View section details below</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-subtitle>View section details below</mat-card-subtitle>
     <mat-list>
         <mat-list-item>Name: {{this.user?.section?.name}}</mat-list-item>
         <mat-list-item>Class Teacher: {{this.user?.section?.classTeacherUsername}}</mat-list-item>
         <mat-list-item>Class Student Representative: {{this.user?.section?.classRepUsername}}</mat-list-item>
     </mat-list>
+    <mat-action-row>
+        <button mat-icon-button (click)="deleteSection()" *ngIf="this.user?.role=='FACULTY'">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-action-row>
 </mat-card>
 
-<div *ngIf = "this.user?.section == null" class="body">
+<div *ngIf = "this.user?.section == null && this.user?.role=='FACULTY'" class="body">
     <mat-card class="content">
         <mat-card-header>
             <mat-card-title>
@@ -58,4 +64,18 @@
         <button mat-stroked-button (click)="addSection(selectedSemester.value, 
         selectedSection.value, repUsername.value, teacherUsername.value)">Add Section +</button>
     </div>
+</div>
+<div *ngIf = "this.user?.section == null && this.user?.role=='STUDENT'" class="body">
+    <mat-card class="content">
+        <mat-card-header>
+            <mat-card-title>
+                <h1>
+                Your Section
+            </h1>
+            </mat-card-title>
+            <mat-card-subtitle>
+                You have not been added to a section
+            </mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
 </div>

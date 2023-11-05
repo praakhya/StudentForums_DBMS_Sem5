@@ -1,4 +1,16 @@
 .dash-body {
     margin: 1em;
-    width: 100vw;
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+}
+.notification {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.notifications {
+    align-self: center;
+    width: 80%;
 }

@@ -1,3 +1,17 @@
 <div class="dash-body">
-    <h1>Welcome {{this.user?.name}}</h1>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h1>Welcome {{this.user?.name}}</h1>
+            </mat-card-title>
+        </mat-card-header>
+    </mat-card>
+    <h2>Notifications</h2>
+        <mat-list class="notifications">
+            <mat-list-item *ngFor="let notif of this.notifications" class="notification">
+                <span>{{notif.ts! | date: "dd/MM/yyyy hh:mm"}}</span> | <span>{{notif.notification}}</span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    
 </div>

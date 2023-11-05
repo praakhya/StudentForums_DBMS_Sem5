@@ -20,18 +20,13 @@ export class ForumsComponent {
     this.user = null;
   }
   ngOnInit() {
-    if (this.isLoggedIn()) {
-      this.user = JSON.parse(localStorage.getItem("user")!) as User
-      if (this.user)
-        this.forums = this.user.forums
-    }
-    else {
-      this.authenticationService.user.subscribe(u => {
+    this.authenticationService.getUser()?.subscribe(u => {
         if (u) {
+          this.user = u;
           this.forums = u.forums
+          console.log("forums on forums init:",this.forums)
         }
       })
-    }
     
   }
   openForum(id:string) {

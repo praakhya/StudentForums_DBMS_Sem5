@@ -21,21 +21,24 @@
                     <mat-icon>add</mat-icon>
                 </button>
             </span>
-            <mat-expansion-panel style="width:100%">
-                <mat-expansion-panel-header style="width:100%">
-                    <mat-panel-title>
+            <mat-card style="width:100%">
+                <mat-card-header style="width:100%">
+                    <mat-card-title>
                         Users
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
+                    </mat-card-title>
+                </mat-card-header>
                 <mat-list *ngFor="let user of this.forum?.users" style="width:100%">
                     <mat-list-item style="width:100%">
-                        <img src="{{user.url}}" class="userAvatar" matListItemAvatar />
+                        <button mat-icon-button *ngIf="this.currentForumSetting && user.id!=this.loggedInUser?.id && user.id!=this.forum?.admin?.id" (click)="deleteUser(user.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <img src="{{user.url}}" class="userAvatar" matListItemAvatar *ngIf="!this.currentForumSetting || user.id==this.loggedInUser?.id || user.id==this.forum?.admin?.id"/>
                         <span class="mdc-image-list__label">{{user.username}}</span>
                         <mat-divider></mat-divider>
                     </mat-list-item>
 
                 </mat-list>
-            </mat-expansion-panel>
+            </mat-card>
         </div>
         <div style="flex-grow: 1">
             <mat-toolbar class="forum-tools">

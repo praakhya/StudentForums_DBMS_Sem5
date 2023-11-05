@@ -3,25 +3,27 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { User } from '../user';
 import { catchError, of, Observable } from 'rxjs';
+import { Notification } from '../notification';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  providers: [DatePipe]
 })
 export class DashboardComponent {
   user:User|null;
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  notifications:Array<Notification> = [];
+  constructor(private router: Router, private authenticationService: AuthenticationService, private datePipe:DatePipe) {
     this.user=null;
   }
   ngOnInit() {
-    if (this.isLoggedIn()) {
-      this.user = JSON.parse(localStorage.getItem("user")!) as User
-    }
-    else {
-    this.authenticationService.user.subscribe(u => {
+    this.authenticationService.getUser()?.subscribe(u => {
       this.user = u
+      this.authenticationService.getNotifications(this.user!.id).subscribe(n => {
+        this.notifications = n;
+      })
     })
-    }
   }
   isLoggedIn() {
     return this.authenticationService.isLoggedIn()
@@ -30,6 +32,12 @@ export class DashboardComponent {
     this.authenticationService.logout()
     this.router.navigate([""])
 
+  }
+  returnDate(dateString:Date) {
+    console.log(dateString)
+    var date = this.datePipe.transform(dateString, 'dd/MM/yyyy')
+    var time = this.datePipe.transform(dateString, "hh:mm")
+    return date+" "+time
   }
 
 }

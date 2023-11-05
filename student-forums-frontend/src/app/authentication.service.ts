@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from './user';
 import { Token } from './token';
 import { of, catchError, Observable, BehaviorSubject } from 'rxjs';
@@ -11,6 +11,7 @@ import { Post } from './post';
 import { ProfileImage } from './profile-image';
 import { Resource } from './resource';
 import { Section } from './section';
+import { Notification } from './notification';
 @Injectable({
   providedIn: 'root'
 })
@@ -153,7 +154,7 @@ export class AuthenticationService {
       headers: httpHeaders
     };
     let body = {}
-    console.log("options in user service: ",options)
+    console.log("options in subscribe service: ",options,url)
     return this.httpClient.post<Forum>(url,body,options);
   }
   createPost(forumId:string, data:string, type:string, title:string, parentId:string|null, resourceIds:Array<string>) {
@@ -289,6 +290,58 @@ export class AuthenticationService {
     console.log("options in create section service: ",options, body)
     return this.httpClient.post<Section>(`${this.baseUrl}/section`,body,options);
   }
+  deleteSection(id:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in delete section service: ",options)
+    return this.httpClient.delete<Section>(`${this.baseUrl}/section/${id}`,options);
+  }
+  deleteUser(forumId:string, userId:string) {
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in delete user service: ",options)
+    var path = `/api/forum/${forumId}/subscribe/${userId}`
+    return this.httpClient.delete<User>(path,options);
+  }
+  getNotifications(userId:string) {
+    var user = JSON.parse(localStorage.getItem("user")!) as User; 
+    var path = `${this.baseUrl}/dashboard/notifications/${userId}`
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.get<Array<Notification>>(path,options);
+  }
+  deleteNotifications(userId:string) {
+    var user = JSON.parse(localStorage.getItem("user")!) as User; 
+    var path = `${this.baseUrl}/dashboard/notifications/${userId}`
+    console.log("authorization: ",localStorage.getItem("token")?.toString())
+    const httpHeaders = {
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in user service: ",options)
+    return this.httpClient.delete(path,options);
+  }
+
 
   
 }

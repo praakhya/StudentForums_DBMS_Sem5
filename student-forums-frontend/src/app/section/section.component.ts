@@ -52,6 +52,14 @@ export class SectionComponent {
       console.log("created section: ",s)
     })
   }
+  deleteSection() {
+    this.authenticationService.deleteSection(this.user?.section?.id!).subscribe(s => {
+      console.log("delete section:",s)
+      this.authenticationService.getUser()?.subscribe(u=>{
+        this.user = u
+      });
+    });
+  }
 
 
 }

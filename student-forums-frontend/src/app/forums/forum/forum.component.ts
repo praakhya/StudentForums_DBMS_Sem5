@@ -7,6 +7,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { User } from 'src/app/user';
 import { Post } from 'src/app/post';
 import { UIService } from 'src/app/ui.service';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
@@ -18,6 +19,7 @@ export class ForumComponent {
   posts: Array<Post>;
   id:string;
   currentForumSetting:boolean = false;
+  loggedInUser: User|null = null;
   constructor(private authenticationService:AuthenticationService, private router:Router, private activatedRoute:ActivatedRoute, public dialog: Dialog, private uiService: UIService) {
     this.id = ""
     this.forum = null;
@@ -27,6 +29,9 @@ export class ForumComponent {
     this.getForum()
     this.authenticationService.posts.subscribe(p => {
       this.posts = p
+    })
+    this.authenticationService.getUser()?.subscribe(u=>{
+      this.loggedInUser = u
     })
   }
   getForum() {
@@ -56,8 +61,12 @@ export class ForumComponent {
   }
   addUserToForum(username:string) {
     console.log("username: ",username)
-    this.authenticationService.subscribeToForum(username,this.forum?.id!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
-      console.error('Session Time Out', error);
+    if (!username) {
+      console.log("Enter a username")
+      return
+    }
+    this.authenticationService.subscribeToForum(username,this.forum?.id!).pipe(catchError((error: HttpErrorResponse, caught: Observable<any>): Observable<any> => {
+      console.error('Session Time Out', error.status, error.message,error.headers);
       localStorage.clear();
       this.router.navigate([""]);
       return of();
@@ -68,7 +77,6 @@ export class ForumComponent {
   }
   isFaculty() {
     var user = JSON.parse(localStorage.getItem("user")!) as User
-    console.log("role: ",user.role)
     return user.role=="FACULTY"
   }
   openEditor(){
@@ -84,6 +92,12 @@ export class ForumComponent {
   editForum() {
     this.currentForumSetting = !this.currentForumSetting
     this.uiService.forumSettingMode.next(this.currentForumSetting)
+  }
+  deleteUser(id:string) {
+    this.authenticationService.deleteUser(this.forum?.id!, id).subscribe(u => {
+      console.log("delete user: ",u)
+      this.getForum()
+    })
   }
   
  
