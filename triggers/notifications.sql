@@ -31,7 +31,7 @@ begin
     declare forum_name varchar(255);
     select users.id into user_id from users where users.username = username;
     select forums.name into forum_name from forums where forums.id = UUID_TO_BIN(forum_id);
-    insert into user_notifications values(user_id, CONCAT("You were added to the ", forum_name, " forum"), now());
+    insert into user_notifications(id, user_id, notification,ts) values(UUID_TO_BIN(UUID()), user_id, CONCAT("You were added to the ", forum_name, " forum"), now());
 end; $$
 delimiter ;
 
@@ -41,6 +41,6 @@ create procedure notifyUserDeleteFromForum(in user_id varchar(255), in forum_id 
 begin
     declare forum_name varchar(255);
     select forums.name into forum_name from forums where forums.id = UUID_TO_BIN(forum_id);
-    insert into user_notifications values(UUID_TO_BIN(user_id), CONCAT("You were deleted from the ", forum_name, " forum"), now());
+    insert into user_notifications(id, user_id, notification,ts) values(UUID_TO_BIN(UUID()),UUID_TO_BIN(user_id), CONCAT("You were deleted from the ", forum_name, " forum"), now());
 end; $$
 delimiter ;
