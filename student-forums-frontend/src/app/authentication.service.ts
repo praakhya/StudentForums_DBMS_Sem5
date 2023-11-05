@@ -12,6 +12,7 @@ import { ProfileImage } from './profile-image';
 import { Resource } from './resource';
 import { Section } from './section';
 import { Notification } from './notification';
+import { PostCount } from './postCount';
 @Injectable({
   providedIn: 'root'
 })
@@ -390,6 +391,18 @@ export class AuthenticationService {
     console.log("options in update faculty service: ",options)
     return this.httpClient.patch<Faculty>(path,faculty,options);
 
+  }
+  public getPostCount(userId: string): Observable<PostCount> {
+    var path = `${this.baseUrl}/dashboard/posts/count/${userId}`
+    const httpHeaders = {
+      'Content-Type':'application/json; charset=utf-8',
+      'Authorization': `Bearer ${localStorage.getItem("token")?.toString()}`
+    };
+    let options = {
+      headers: httpHeaders
+    };
+    console.log("options in get student service: ",options)
+    return this.httpClient.get<PostCount>(path, options);
   }
 
   

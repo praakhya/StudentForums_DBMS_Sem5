@@ -6,6 +6,8 @@
             </mat-card-title>
         </mat-card-header>
     </mat-card>
+    <h2 *ngIf="this.postCount==1">You have contributed {{this.postCount}} post</h2>
+    <h2 *ngIf="this.postCount!=1">You have contributed {{this.postCount}} posts</h2>
     <h2>Notifications</h2>
         <mat-list class="notifications">
             <mat-list-item *ngFor="let notif of this.notifications" class="notification">

@@ -5,9 +5,6 @@
             </div>
             <mat-card-content class="signup-inputs">
 
-                <mat-chip *ngIf="this.passwordError.getValue() == true">Passwords do not match</mat-chip>
-                <mat-chip *ngIf="this.studentError.getValue() == true">Student Information not filled</mat-chip>
-                <mat-chip *ngIf="this.facultyError.getValue() == true">Faculty Information not filled</mat-chip>
                 <input placeholder="Username" class="input" #username>
                 <input type="email" placeholder="E-Mail" class="input" #email>
                 <input placeholder="Name" class="input" #name>

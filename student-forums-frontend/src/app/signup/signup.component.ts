@@ -7,15 +7,16 @@ import { Faculty } from '../faculty';
 import { Student } from '../student';
 import { Router } from '@angular/router';
 import { ElementRef } from '@angular/core';
+import { SnackbarService } from '../snackbar.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
-  facultyError: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  studentError: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  passwordError: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  facultyError:string = "Faculty details were not filled properly"
+  studentError:string = "Student details were not filled properly"
+  passwordError:string = "Passwords did not match"
   
 
   error: String;
@@ -28,19 +29,18 @@ export class SignupComponent {
     "Mechanical Engineering",
     "Civil Engineering"
   ];
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private snackBarService: SnackbarService) {
     this.error = "";
 
   }
 
 
   signup(username: string, email: string, name: string, password: string, confirmPassword: string, role: string, department: string, rollNo: string, jobTitle: string) {
-    if ((password == confirmPassword) && (username && email && name && password && confirmPassword)) {
+    if ((password == confirmPassword)) {
+      if (username && email && name && password && confirmPassword) {
       var user = null;
-      this.passwordError.next(false)
       if (role == "faculty") {
         if (department && jobTitle) {
-          this.facultyError.next(false)
           user = new Faculty(null, username, password, email, name, null, jobTitle, department, [], [], null);
           console.log("faculty in signup: ", user)
           this.authenticationService.postFaculty(user!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
@@ -54,12 +54,11 @@ export class SignupComponent {
           })
         }
         else {
-          this.facultyError.next(true)
+          this.snackBarService.show(this.facultyError)
         }
       }
       else {
         if (rollNo && department) {
-          this.studentError.next(false)
           user = new Student(null, username, password, email, name, null, null, rollNo, department, null, [], [], []);
           console.log("student in signup: ", user)
           this.authenticationService.postStudent(user!).pipe(catchError((error: any, caught: Observable<any>): Observable<any> => {
@@ -68,18 +67,21 @@ export class SignupComponent {
             return of();
           })).subscribe(res => {
             console.log(res);
-
-            alert(res)
+            alert("User successfully signed up. Log in to continue")
           })
         }
         else {
-          this.studentError.next(true)
+          this.snackBarService.show(this.studentError)
         }
       }
+    }
+    else {
+      this.snackBarService.show("Fill all required details")
+    }
 
     }
     else {
-      this.passwordError.next(true)
+      this.snackBarService.show(this.passwordError)
     }
 
 
