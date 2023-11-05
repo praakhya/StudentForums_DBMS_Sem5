@@ -1,5 +1,6 @@
 package com.projects.pes.forumbackend.endpoints;
 
+import com.projects.pes.forumbackend.entities.StudentEntity;
 import com.projects.pes.forumbackend.exceptions.FileParsingFailed;
 import com.projects.pes.forumbackend.pojo.Forum;
 import com.projects.pes.forumbackend.pojo.ProfileImage;
@@ -33,7 +34,11 @@ public class StudentEndpoint {
     public Iterable<Student> getStudent() {
         return studentService.getStudents();
     }
+    @RequestMapping(method = RequestMethod.PATCH, produces =  MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Student> updateStudent(@RequestBody Student student) {
+        return Optional.of(studentService.updateStudent(student));
 
+    }
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<Student> getStudent(@PathVariable("username") String username) {
         return Optional.of(studentService.getStudent(username));

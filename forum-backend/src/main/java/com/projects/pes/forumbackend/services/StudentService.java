@@ -44,6 +44,22 @@ public class StudentService {
         return studentMapper.convert(studentRepository
                 .findByUsername(username).orElseThrow(() -> {throw new UserDoesntExist(username);}));
     }
+    public Student updateStudent(Student student) {
+        StudentEntity studentEntity = studentRepository.findById(student.getId()).orElseThrow(() -> new UserDoesntExist(student.getId().toString()));
+        if (student.getEmail()!=null && !studentEntity.getEmail().equals(student.getEmail())) {
+            studentEntity.setEmail(student.getEmail());
+        }
+        if (student.getName()!=null && !studentEntity.getName().equals(student.getName())) {
+            studentEntity.setName(student.getName());
+        }
+        if (studentEntity.getContact() == null || (student.getContact()!=null && !studentEntity.getContact().equals(student.getContact()))) {
+            studentEntity.setContact(student.getContact());
+        }
+            studentEntity.setMemberships(student.getMemberships());
+            studentEntity.setPublications(student.getPublications());
+            studentEntity.setSkills(student.getSkills());
+        return studentMapper.convert(studentEntity);
+    }
     @Transactional
     public Student save(Student student) {
         student.setPassword(passwordEncoder.encode(student.getPassword()));

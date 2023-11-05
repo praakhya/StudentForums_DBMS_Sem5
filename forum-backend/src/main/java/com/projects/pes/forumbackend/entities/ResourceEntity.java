@@ -24,6 +24,4 @@ public class ResourceEntity {
     private String ownerName;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "resources")
     private Set<PostEntity> posts;
-    @ManyToMany
-    private Set<ForumEntity> forums;
 }

@@ -3,6 +3,7 @@ package com.projects.pes.forumbackend.endpoints;
 import com.projects.pes.forumbackend.exceptions.FileParsingFailed;
 import com.projects.pes.forumbackend.pojo.Faculty;
 import com.projects.pes.forumbackend.pojo.ProfileImage;
+import com.projects.pes.forumbackend.pojo.Student;
 import com.projects.pes.forumbackend.services.FacultyService;
 import com.projects.pes.forumbackend.services.UserService;
 import com.projects.pes.forumbackend.utils.Constants;
@@ -30,6 +31,11 @@ public class FacultyEndpoint {
     public Iterable<Faculty> getFaculty() {
 
         return facultyService.getFaculties();
+    }
+    @RequestMapping(method = RequestMethod.PATCH, produces =  MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Faculty> updateFaculty(@RequestBody Faculty faculty) {
+        return Optional.of(facultyService.updateFaculty(faculty));
+
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

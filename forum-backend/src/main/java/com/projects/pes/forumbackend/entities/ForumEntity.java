@@ -20,8 +20,6 @@ public class ForumEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="id", referencedColumnName="id", foreignKey=@ForeignKey(name = "Fk_forums_posts"))
     private Set<PostEntity> posts;
-    @ManyToMany
-    private Set<ResourceEntity> resources;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "forums")
     private List<UserEntity> users;
     @OneToOne
