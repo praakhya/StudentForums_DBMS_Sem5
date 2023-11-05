@@ -5,6 +5,7 @@ import com.projects.pes.forumbackend.entities.SectionEntity;
 import com.projects.pes.forumbackend.pojo.CreateForum;
 import com.projects.pes.forumbackend.pojo.Forum;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -17,4 +18,10 @@ public interface ForumRepository extends CrudRepository<ForumEntity, UUID> {
 
     @Query("select f from ForumEntity f where f.section like :section")
     Optional<ForumEntity> findBySection(SectionEntity section);
+
+    @Procedure(procedureName = "notifyUserAddToForum")
+    void addSubscribeNotification(String username, String forumId);
+
+    @Procedure(procedureName = "notifyUserDeleteFromForum")
+    void addUnsubscribeNotification(String userId, String forumId);
 }

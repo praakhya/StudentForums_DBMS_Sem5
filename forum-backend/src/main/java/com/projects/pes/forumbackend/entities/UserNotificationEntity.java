@@ -3,19 +3,18 @@ package com.projects.pes.forumbackend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "sections")
-public class SectionEntity {
+@Table(name = "user_notifications")
+public class UserNotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @OneToOne
-    private StudentEntity classRep;
-    @OneToOne
-    private FacultyEntity classTeacher;
-    private String name;
+    private UUID userId;
+    private String notification;
+    private Date ts;
 }
 

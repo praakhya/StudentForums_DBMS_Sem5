@@ -16,6 +16,7 @@ public class PostEntity {
     private UUID id;
     private String type;
     private String title;
+    @Column(name = "content", columnDefinition="TEXT")
     private String content;
     private UUID posterId;
     private UUID parentId;

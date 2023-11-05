@@ -9,6 +9,7 @@ public class Constants {
     public static class Paths {
         public static final String HELLO_PATH = BASE_PATH + "/hello";
         public static final String USER_PATH = BASE_PATH + "/user";
+        public static final String DASHBOARD_PATH = BASE_PATH + "/dashboard";
         public static final String AUTH_PATH = BASE_PATH + "/auth";
         public static final String SECTION_PATH = BASE_PATH + "/section";
         public static final String SECTION_ID_PATH = "{id}";
@@ -26,6 +27,8 @@ public class Constants {
         public static final String RESOURCE_OF_USER_GET_PATH = "/user/{username}";
 
         public static final String FORUM_PATH = BASE_PATH + "/forum";
+        public static final String UNSCRIBED_FORUMS_PATH = "/unsubscribed/{id}";
+
         public static final String GET_ALL_BRIEF_FORUMS_PATH = "/brief";
         public static final String FORUM_GET_ONE_PATH = "/{id}";
         public static final String POST_IN_A_FORUM_PATH = "/{forumId}/post";
@@ -36,5 +39,7 @@ public class Constants {
 
         public static final String DUMMY_PROFILE_PICTURE = "/content/dummypp.png";
         public static final String SECTION_FROM_USERNAME = "/user/{username}";
+        public static final String POSTS_COUNT = "/posts/count/{id}";
+        public static final String NOTIFICATIONS = "/notifications/{id}";
     }
 }

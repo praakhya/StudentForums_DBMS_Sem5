@@ -36,7 +36,13 @@ public class UserMapper {
             imageData = pictureEntity.getImageData();
             mimeType = pictureEntity.getMimeType();
         }
-        SectionEntity sectionEntity = sectionRepository.findByUsername(userEntity.getUsername()).orElseThrow(() -> new EntityDoesntExist(userEntity.getUsername(), "section"));
+        SectionEntity sectionEntity = null;
+        try {
+            sectionEntity = sectionRepository.findByUsername(userEntity.getUsername()).orElseThrow();
+        }
+        catch (Exception e) {
+
+        }
         return new User(
                 userEntity.getId(),
                 userEntity.getUsername(),

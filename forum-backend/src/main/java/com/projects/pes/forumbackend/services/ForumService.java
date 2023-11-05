@@ -148,11 +148,11 @@ public class ForumService {
         Optional<ForumEntity> optionalForumEntity = forumRepository.findById(forumId);
         ForumEntity forumEntity = optionalForumEntity.orElseThrow(()->new EntityDoesntExist(forumId.toString(), "forum"));
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(()->new UserDoesntExist(username));
-        if (forumEntity.getUsers()==null) {
+        if (forumEntity.getUsers() == null) {
             forumEntity.setUsers(new ArrayList<>());
         }
         forumEntity.getUsers().add(userEntity);
-        if (userEntity.getForums()==null) {
+        if (userEntity.getForums() == null) {
             userEntity.setForums(new ArrayList<>());
         }
         userEntity.getForums().add(forumEntity);

@@ -1,69 +1,50 @@
 package com.projects.pes.forumbackend.endpoints;
 
-import com.projects.pes.forumbackend.exceptions.FileParsingFailed;
-import com.projects.pes.forumbackend.pojo.Faculty;
-import com.projects.pes.forumbackend.pojo.ProfileImage;
+import com.projects.pes.forumbackend.entities.UserNotificationEntity;
+import com.projects.pes.forumbackend.repositories.UserNotificationRepository;
 import com.projects.pes.forumbackend.services.FacultyService;
 import com.projects.pes.forumbackend.services.UserService;
 import com.projects.pes.forumbackend.utils.Constants;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NamedNativeQuery;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
-@RequestMapping(Constants.Paths.FACULTY_PATH)
-public class FacultyEndpoint {
+@RequestMapping(Constants.Paths.DASHBOARD_PATH)
+public class DashboardEndpoint {
     @Autowired //automatically finds beans and injects it.
     private FacultyService facultyService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EntityManager entityManager;
+    @Autowired
+    private UserNotificationRepository userNotificationRepository;
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Faculty> getFaculty() {
-
-        return facultyService.getFaculties();
+    @RequestMapping(value = Constants.Paths.POSTS_COUNT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity postCount(@PathVariable("id") UUID id) {
+        String query = String.format("select getPostCount(\"%s\")",id.toString());
+        List results = entityManager.createNativeQuery(query).getResultList();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("count", Long.parseLong(results.get(0).toString()));
+        return ResponseEntity.ok(map);
+    }
+    @RequestMapping(value = Constants.Paths.NOTIFICATIONS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getNotifications(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(userNotificationRepository.findByUserId(id));
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Faculty> getFaculty(@PathVariable("username") String username) {
-        return Optional.of(facultyService.getFaculty(username));
+    @RequestMapping(value = Constants.Paths.NOTIFICATIONS, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteNotifications(@PathVariable("id") UUID id) {
+        Iterable<UserNotificationEntity> userNotificationEntities = userNotificationRepository.findByUserId(id);
+        userNotificationRepository.deleteAll(userNotificationEntities);
+        return ResponseEntity.ok("All notifications deleted");
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Faculty> save(@RequestBody Faculty faculty) {
-        return Optional.of(facultyService.save(faculty));
-    }
-    @RequestMapping(value = "/{username}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Faculty> deleteFaculty(@PathVariable("username") String username) {
-        return Optional.of(facultyService.delete(username));
-    }
-    @RequestMapping(value = Constants.Paths.IMAGE_UPLOAD_PATH, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ProfileImage  uploadImage(@PathVariable("username") String username, @RequestParam("image") MultipartFile file) {
-        try {
-            return userService.updateProfileImage(username, file.getBytes(), file.getContentType());
-        }
-        catch (IOException ex) {
-            throw new FileParsingFailed(file.getName(), ex);
-        }
-    }
-    @RequestMapping(value = Constants.Paths.IMAGE_UPLOAD_PATH, method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getImage(@PathVariable("username") String username) {
-        Optional<ProfileImage> optionalProfileImage = userService.getImage(username);
-        if (optionalProfileImage.isPresent()) {
-
-            ProfileImage profileImage = optionalProfileImage.get();
-            return ResponseEntity.ok().contentType(MediaType.valueOf(profileImage.mimeType())).body(profileImage.image());
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header("Location", Constants.Paths.DUMMY_PROFILE_PICTURE).build();
-        }
-    }
 }
