@@ -2,7 +2,7 @@
     <mat-card-header class="login-header">Login</mat-card-header>
     <mat-card-content class="login-inputs">
                 <input #username placeholder="Username" class="input" name="usernameRef" ngModel>
-                <input #password placeholder="Password" class="input" >
+                <input #password placeholder="Password" class="input" type="password">
     </mat-card-content>
     <mat-card-actions class="login-actions">
         <button mat-stroked-button (click)="login(username.value, password.value)">Login</button>

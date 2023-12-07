@@ -21,6 +21,11 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
+
+#    url: jdbc:mysql://localhost:3306/forum_project?useSSL=false&allowPublicKeyRetrieval=true
+#    username: projectadmin # the mysql user details
+#    password: project12345
+
 logging:
   level:
     org:
